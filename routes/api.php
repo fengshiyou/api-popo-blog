@@ -16,11 +16,15 @@ use Illuminate\Http\Request;
 Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
-Route::group(['prefix'=>'test'],function (){
+Route::group(['prefix' => 'test'], function () {
     Route::get('/test', function () {
-        return "test";
+        $zzz = respSuc('adsf');
+        return $zzz;
     });
 });
 //blog相关API
-
+Route::group(['namespace' => 'blog', 'prefix' => 'blog'], function () {
+    Route::post('/save', 'BlogController@blogSave');
+});
+//@todo 需要登陆验证的内容
 
