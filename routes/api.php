@@ -24,7 +24,7 @@ Route::group(['prefix' => 'test'], function () {
 });
 //blog相关API
 Route::group(['namespace' => 'blog', 'prefix' => 'blog'], function () {
-    Route::post('/save', 'BlogController@blogSave');
+    Route::get('/save', 'BlogController@blogSave');
 });
 //@todo 需要登陆验证的内容
 
