@@ -11,8 +11,6 @@
 if (!function_exists('respJson')) {
     function respJson($result)
     {
-        //添加header  允许任何域名访问
-        header("Access-Control-Allow-Origin:*");
         // JSON_UNESCAPED_UNICODE 这个参数可以json不转译unicode值
         // 如果不加默认是输出如 {"hello":"\u4e16\u754c"}
         return response()->json($result, 200, [], JSON_UNESCAPED_UNICODE);

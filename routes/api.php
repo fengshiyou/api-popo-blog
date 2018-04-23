@@ -23,8 +23,10 @@ Route::group(['prefix' => 'test'], function () {
     });
 });
 //blog相关API
-Route::group(['namespace' => 'blog', 'prefix' => 'blog'], function () {
-    Route::get('/save', 'BlogController@blogSave');
+Route::group(['namespace' => 'blog', 'prefix' => 'blog','middleware'=>'test'], function () {
+    Route::post('/save', 'BlogController@blogSave');
+    Route::get('/getTags', 'BlogController@getTags');
+    Route::get('/getCatalogList', 'BlogController@getCatalogList');
 });
 //@todo 需要登陆验证的内容
 
