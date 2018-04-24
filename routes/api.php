@@ -26,7 +26,8 @@ Route::group(['prefix' => 'test'], function () {
 Route::group(['namespace' => 'blog', 'prefix' => 'blog','middleware'=>'test'], function () {
     Route::post('/save', 'BlogController@blogSave');
     Route::get('/getTags', 'BlogController@getTags');
-    Route::get('/getCatalogList', 'BlogController@getCatalogList');
+    Route::get('/getCatalogList', 'CatalogController@getCatalogList');
 });
+
 //@todo 需要登陆验证的内容
 

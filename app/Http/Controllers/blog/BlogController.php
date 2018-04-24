@@ -30,11 +30,9 @@ class BlogController extends Controller
         }
         return $result;
     }
-    public function getTags(){
+
+    public function getTags()
+    {
         return respSuc(Tag::get());
-    }
-    public function getCatalogList(){
-        $z = Catalog::getCatalogList(1)->get()->toArray();
-        var_dump($z);die;
     }
 }

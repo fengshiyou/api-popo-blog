@@ -16,7 +16,7 @@ class test
      */
     public function handle($request, Closure $next)
     {
-        $mid_params = ['uid'=>'1'];
+        $mid_params = ['login_uid'=>'1'];
         $request->merge($mid_params);//合并参数
 
         return $next($request);

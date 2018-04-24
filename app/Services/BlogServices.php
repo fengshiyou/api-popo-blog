@@ -28,12 +28,12 @@ class BlogServices
         //保存内容
         $content_id = $content_model->insertGetId(['content' => $info['content'], 'updated_at' => date("Y-m-d H:i:s"), 'created_at' => date("Y-m-d H:i:s")]);
         //标签处理
-        $tags = implode($info['tags'], ',');
+        $tags = $info['tags'] ? implode($info['tags'], ',') : "";
 
         //博客数据
         $blog_data = [
             'title' => $info['title'],
-            'uid' => $info['uid'],
+            'uid' => $info['login_uid'],
             'content_id' => $content_id,
             'catalog_id' => $info['catalog_id'],
             'tags' => $tags,
@@ -43,14 +43,17 @@ class BlogServices
         //博客列表保存
         $blog_id = $blog_model->insertGetId($blog_data);
         //标签处理
-        foreach ($info['tags'] as $tag_id) {
-            $blog_tag[] = [
-                'blog_id' => $blog_id,
-                'tag_id' => $tag_id,
-                'updated_at' => date("Y-m-d H:i:s"),
-                'created_at' => date("Y-m-d H:i:s"),
-            ];
+        if($info['tags']){
+            foreach ($info['tags'] as $tag_id) {
+                $blog_tag[] = [
+                    'blog_id' => $blog_id,
+                    'tag_id' => $tag_id,
+                    'updated_at' => date("Y-m-d H:i:s"),
+                    'created_at' => date("Y-m-d H:i:s"),
+                ];
+            }
         }
+
         //博客标签保存
         $blog_tag_insert = BlogTag::insert($blog_tag);
         if ($content_id && $blog_id && $blog_tag_insert) {
@@ -75,7 +78,7 @@ class BlogServices
         $blog_info->tags = $tags;
         $blog_info->updated_at = date("Y-m-d H:i:m");
         //验证博客作者
-        if ($blog_info->uid != $info['uid']) {
+        if ($blog_info->uid != $info['login_uid']) {
             return respErr(1001);
         }
         //博客内容
