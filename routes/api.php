@@ -27,7 +27,13 @@ Route::group(['namespace' => 'blog', 'prefix' => 'blog','middleware'=>'test'], f
     Route::post('/save', 'BlogController@blogSave');
     Route::get('/getTags', 'BlogController@getTags');
     Route::get('/getCatalogList', 'CatalogController@getCatalogList');
+    Route::get('/getList', 'BlogController@getList');
+    Route::post('/getContent', 'BlogController@getContent');
 });
-
+Route::group(['namespace'=>'user','prefix'=>'user'],function (){
+    Route::post('/login','UserController@login');
+    Route::post('/register','UserController@register');
+});
 //@todo 需要登陆验证的内容
+Route::get('/request/test', 'blog\BlogController@requestTest');
 
