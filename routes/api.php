@@ -34,6 +34,13 @@ Route::group(['namespace'=>'user','prefix'=>'user'],function (){
     Route::post('/login','UserController@login');
     Route::post('/register','UserController@register');
 });
+//需要登陆验证
+Route::group(['middleware'=>'checklogin'],function (){
+    //博客相关
+    Route::group(['namespace' => 'blog', 'prefix' => 'blog'], function () {
+        Route::get('/myBlog', 'BlogController@getList');
+    });
+});
 //@todo 需要登陆验证的内容
 Route::get('/request/test', 'blog\BlogController@requestTest');
 

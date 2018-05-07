@@ -2,6 +2,7 @@
 
 namespace App\Http;
 
+use App\Http\Middleware\CheckLoginMiddleware;
 use Illuminate\Foundation\Http\Kernel as HttpKernel;
 
 class Kernel extends HttpKernel
@@ -59,5 +60,6 @@ class Kernel extends HttpKernel
         'guest' => \App\Http\Middleware\RedirectIfAuthenticated::class,
         'test' => \App\Http\Middleware\test::class,
         'throttle' => \Illuminate\Routing\Middleware\ThrottleRequests::class,
+        'checklogin'=>CheckLoginMiddleware::class,
     ];
 }
