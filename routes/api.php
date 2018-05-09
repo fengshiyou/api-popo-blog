@@ -24,7 +24,6 @@ Route::group(['prefix' => 'test'], function () {
 });
 //blog相关API
 Route::group(['namespace' => 'blog', 'prefix' => 'blog','middleware'=>'test'], function () {
-    Route::post('/save', 'BlogController@blogSave');
     Route::get('/getTags', 'BlogController@getTags');
     Route::get('/getCatalogList', 'CatalogController@getCatalogList');
     Route::get('/getList', 'BlogController@getList');
@@ -38,7 +37,11 @@ Route::group(['namespace'=>'user','prefix'=>'user'],function (){
 Route::group(['middleware'=>'checklogin'],function (){
     //博客相关
     Route::group(['namespace' => 'blog', 'prefix' => 'blog'], function () {
+        //获取博客列表
         Route::get('/myBlog', 'BlogController@getList');
+        //保存博客内容
+        Route::post('/save', 'BlogController@blogSave');
+
     });
 });
 //@todo 需要登陆验证的内容

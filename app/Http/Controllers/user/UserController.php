@@ -16,8 +16,8 @@ class UserController extends Controller
     {
         $pro = [
             'acount' => 'required|between:2,30',
-            'passwd' => 'required|between:3,18',
-            'passwd_check' => 'required|between:3,18',
+            'passwd' => 'required|between:2,18',
+            'passwd_check' => 'required|between:2,18',
         ];
         if ($this->appValidata($pro, $error, $p)) {
             return respErr(5000, $error);
@@ -48,7 +48,7 @@ class UserController extends Controller
     {
         $pro = [
             'acount' => 'required|between:2,30',
-            'passwd' => 'required|between:3,18'
+            'passwd' => 'required|between:2,18'
         ];
         if ($this->appValidata($pro, $error, $p)) {
             return respErr(5000, $error);
