@@ -41,6 +41,8 @@ Route::group(['middleware'=>'checklogin'],function (){
         Route::get('/myBlog', 'BlogController@getList');
         //保存博客内容
         Route::post('/save', 'BlogController@blogSave');
+        //修改时 获取博客内容
+        Route::post('/getEditContent', 'BlogController@getEditContent');
 
     });
 });

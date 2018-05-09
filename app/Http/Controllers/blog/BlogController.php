@@ -71,6 +71,8 @@ class BlogController extends Controller
         $total =  $blog_model->count();
         //获取所属目录
         $blog_model = $blog_model->select('blog_list.*')->getCatalog();
+        //获取博客内容
+//        $blog_model = $blog_model->addSelect('content.content')->leftJoin('content','blog_list.content_id','=','content.id');
         //分页
         $blog_model = $blog_model->skip(($page_no - 1) * $per_page)
             ->take($per_page);
@@ -91,6 +93,23 @@ class BlogController extends Controller
             return respErr(50000, $error);
         }
         $content = Content::leftJoin('blog_list','content.id','=','blog_list.content_id')->where('blog_list.id',$param['content_id'])->first();
+        return respSuc($content);
+    }
+    public function getEditContent(){
+        $rules = [
+            'blog_id' => 'required'
+        ];
+        if ($this->appValidata($rules, $error, $param)) {
+            return respErr(50000, $error);
+        }
+        $content = Content::leftJoin('blog_list','content.id','=','blog_list.content_id')->where('blog_list.id',$param['blog_id'])->first();
+        if(!$content){
+            return respErr(1002);
+        }
+        //验证修改者是否是创建者
+        if($content->uid != $param['login_uid']){
+            return respErr(1001);
+        }
         return respSuc($content);
     }
     public function requestTest(){
