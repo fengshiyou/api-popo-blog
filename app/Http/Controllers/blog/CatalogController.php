@@ -59,4 +59,17 @@ class CatalogController extends Controller
         }
         return $return_list;
     }
+    /**
+     * 重命名目录名称
+     */
+    public function rename(){
+        //校验规则
+        $rules = [
+            'catalog_id' => 'required',
+            'new_name' => 'required',
+        ];
+        if ($this->appValidata($rules, $error, $param)) {
+            return respErr(50000, $error);
+        }
+    }
 }

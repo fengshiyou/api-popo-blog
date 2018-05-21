@@ -43,6 +43,8 @@ Route::group(['middleware'=>'checklogin'],function (){
         Route::post('/save', 'BlogController@blogSave');
         //修改时 获取博客内容
         Route::post('/getEditContent', 'BlogController@getEditContent');
+        //修改目录名称
+        Route::post('/renameCatalog','CatalogController@rename');
 
     });
 });

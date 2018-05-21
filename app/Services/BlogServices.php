@@ -43,7 +43,7 @@ class BlogServices
         //博客列表保存
         $blog_id = $blog_model->insertGetId($blog_data);
         //标签处理
-        if($info['tags']){
+        if ($info['tags']) {
             foreach ($info['tags'] as $tag_id) {
                 $blog_tag[] = [
                     'blog_id' => $blog_id,
@@ -69,7 +69,7 @@ class BlogServices
     {
         //标签处理
         $blog_tag_model = new BlogTag();
-        $tags = implode($info['tags'], ',');
+        $tags = $info['tags'] ? implode($info['tags'], ',') : "";
         //博客信息
         $blog_model = new BlogList();
         $blog_info = $blog_model->where("id", $info['blog_id'])->first();

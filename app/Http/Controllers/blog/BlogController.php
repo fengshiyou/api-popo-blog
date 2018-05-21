@@ -26,7 +26,7 @@ class BlogController extends Controller
             return respErr(50000, $error);
         }
         $blog_service = new BlogServices();
-        if (!$param['blog_id']) {
+        if (!in_array('blog_id',$param)) {
             $result = $blog_service->blogAdd($param);
         } else {
             $result = $blog_service->blogEdit($param);
@@ -102,7 +102,11 @@ class BlogController extends Controller
         if ($this->appValidata($rules, $error, $param)) {
             return respErr(50000, $error);
         }
-        $content = Content::leftJoin('blog_list','content.id','=','blog_list.content_id')->where('blog_list.id',$param['blog_id'])->first();
+        $content = BlogList::leftJoin('content','content.id','=','blog_list.content_id')
+            ->getCatalog()
+            ->addSelect('blog_list.*','content.content')
+            ->where('blog_list.id',$param['blog_id'])
+            ->first();
         if(!$content){
             return respErr(1002);
         }
