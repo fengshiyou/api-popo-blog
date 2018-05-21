@@ -71,5 +71,16 @@ class CatalogController extends Controller
         if ($this->appValidata($rules, $error, $param)) {
             return respErr(50000, $error);
         }
+        $catalog_info = Catalog::where('id',$param['catalog_id'])->first();
+        if(!$catalog_info){
+            return respErr(30001);
+        }
+        if($catalog_info->uid != $param['login_uid']){
+            return respErr(1003);
+        }
+        $catalog_info->catalog_name = $param['new_name'];
+        $catalog_info->updated_at = date("Y-m-d H:i:s");
+        $catalog_info->save();
+        return respSuc();
     }
 }
