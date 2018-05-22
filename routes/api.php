@@ -13,19 +13,10 @@ use Illuminate\Http\Request;
 |
 */
 
-Route::middleware('auth:api')->get('/user', function (Request $request) {
-    return $request->user();
-});
-Route::group(['prefix' => 'test'], function () {
-    Route::get('/test', function () {
-        $zzz = respSuc('adsf');
-        return $zzz;
-    });
-});
 //blog相关API
-Route::group(['namespace' => 'blog', 'prefix' => 'blog','middleware'=>'test'], function () {
+Route::group(['namespace' => 'blog', 'prefix' => 'blog'], function () {
     Route::get('/getTags', 'BlogController@getTags');
-    Route::get('/getCatalogList', 'CatalogController@getCatalogList');
+    Route::get('/getCatalogList', 'CatalogController@getCatalogListHaveCount');
     Route::get('/getList', 'BlogController@getList');
     Route::post('/getContent', 'BlogController@getContent');
 });
@@ -45,9 +36,13 @@ Route::group(['middleware'=>'checklogin'],function (){
         Route::post('/getEditContent', 'BlogController@getEditContent');
         //修改目录名称
         Route::post('/renameCatalog','CatalogController@rename');
+        //新增目录
+        Route::post('/newCatalog','CatalogController@newCatalog');
+        //获取个人目录
+        Route::post('/getMyCatalogList', 'CatalogController@getCatalogListHaveCount');
+        //删除目录
+        Route::post('/delMyCatalog', 'CatalogController@delCatalog');
 
     });
 });
-//@todo 需要登陆验证的内容
-Route::get('/request/test', 'blog\BlogController@requestTest');
 

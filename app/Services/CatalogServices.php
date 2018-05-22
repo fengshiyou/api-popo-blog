@@ -1,0 +1,56 @@
+<?php
+/**
+ * Created by PhpStorm.
+ * User: feng
+ * Date: 2018/4/18
+ * Time: 10:30
+ */
+
+namespace App\Services;
+
+
+use App\model\Catalog;
+use App\Model\Member;
+use Illuminate\Support\Facades\DB;
+
+class CatalogServices
+{
+    /**
+     * 初始化用户目录
+     * 用用户名做根目录
+     */
+    public function initCatalog(Member $user)
+    {
+        $catalog = new Catalog();
+        $catalog->uid = $user->id;
+        $catalog->catalog_name = $user->acount;
+        $catalog->lef = 1;
+        $catalog->rig = 2;
+        $catalog->parent_id = -1;
+        $catalog->updated_at = now();
+        $catalog->created_at = now();
+        $catalog->save();
+    }
+
+    /**
+     * 删除目录
+     */
+    public function delCatalog(Catalog $catalog)
+    {
+        //要删除目录及其子目录所占有的所有空间
+        $length = $catalog->rig - $catalog->lef + 1;
+
+        DB::beginTransaction();
+        $del = Catalog::where('lef', '>=', $catalog->lef)->where('rig', '<=', $catalog->rig)->delete();
+        $update_rig = Catalog::where('rig','>',$catalog->rig)->increment('rig',-$length);
+        $update_lef = Catalog::where('lef','>',$catalog->rig)->increment('lef',-$length);
+
+        if ($del && $update_rig && $update_lef) {
+            DB::commit();
+            return respSuc();
+        } else {
+            DB::rollback();
+            return respErr(10000);
+        }
+    }
+}

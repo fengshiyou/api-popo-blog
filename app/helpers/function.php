@@ -20,7 +20,7 @@ if (!function_exists('respJson')) {
 if (!function_exists('respErr')) {
     function respErr($code = 500, $msg = '')
     {
-        $msg = config('errorCode.' . $code) ? config('errorCode.' . $code) : $msg;
+        $msg = config('errorCode.' . $code) ? config('errorCode.' . $code).$msg : $msg;
         $result = [
             'code' => $code,
             'msg' => $msg,

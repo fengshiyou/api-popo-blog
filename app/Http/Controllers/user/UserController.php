@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\user;
 
 use App\Model\Member;
+use App\Services\CatalogServices;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Redis;
@@ -38,6 +39,9 @@ class UserController extends Controller
         $user_model->created_at = $now;
         $user_model->updated_at = $now;
         $user_model->save();
+        //初始化用户目录
+        $catalog_service = new CatalogServices();
+        $catalog_service->initCatalog($user_model);
         return $this->login();
     }
 
