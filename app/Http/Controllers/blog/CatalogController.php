@@ -151,6 +151,9 @@ class CatalogController extends Controller
         if ($catalog_info->uid != $param['login_uid']) {
             return respErr(1003);
         }
+        if($catalog_info->parent_id == -1){
+            return respErr(30002);
+        }
         $catalog_service = new CatalogServices();
         return $catalog_service->delCatalog($catalog_info);
     }
