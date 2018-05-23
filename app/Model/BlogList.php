@@ -20,7 +20,7 @@ class BlogList extends Model
             $join
                 ->on('catalog2.lef', '<=', 'catalog1.lef')
                 ->on('catalog2.rig', '>=', 'catalog1.rig')
-                ->on('catalog2.uid', '>=', 'catalog1.uid');
+                ->on('catalog2.uid', '=', 'catalog1.uid');
         });
         $query->orderBy('catalog2.lef');
         $query->groupBy('blog_list.id');
