@@ -70,7 +70,6 @@ class CatalogController extends Controller
      */
     public function rename()
     {
-        //@todo 根目录不允许修改名称
         //校验规则
         $rules = [
             'catalog_id' => 'required',
@@ -85,6 +84,9 @@ class CatalogController extends Controller
         }
         if ($catalog_info->uid != $param['login_uid']) {
             return respErr(1003);
+        }
+        if($catalog_info->parent_id == -1){
+            return respErr(30003);
         }
         $catalog_info->catalog_name = $param['new_name'];
         $catalog_info->updated_at = now();
@@ -112,24 +114,9 @@ class CatalogController extends Controller
         if ($catalog_info->uid != $param['login_uid']) {
             return respErr(1003);
         }
-        $catalog_model = new Catalog();
-        $catalog_model->lef = $catalog_info->rig;
-        $catalog_model->rig = $catalog_info->rig + 1;
-        $catalog_model->parent_id = $param['catalog_id'];
-        $catalog_model->catalog_name = $param['catalog_name'];
-        $catalog_model->uid = $param['login_uid'];
-        DB::beginTransaction();
-        $update_lef = $catalog_model->where('lef', '>=', $catalog_info->rig)->increment('lef', 2);
-        $update_rig = $catalog_model->where('rig', '>=', $catalog_info->rig)->increment('rig', 2);
-        $new_catalog = $catalog_model->save();
+        $catalog_service = new CatalogServices();
 
-        if ($update_lef && $update_rig && $new_catalog) {
-            DB::commit();
-            return respSuc();
-        } else {
-            DB::rollback();
-            return respErr(10000);
-        }
+        return $catalog_service->addCatalog($catalog_info,$param['catalog_name']);
     }
     /**
      * 删除目录
