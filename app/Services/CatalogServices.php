@@ -9,6 +9,7 @@
 namespace App\Services;
 
 
+use App\model\BlogList;
 use App\model\Catalog;
 use App\Model\Member;
 use Illuminate\Support\Facades\DB;
@@ -41,11 +42,12 @@ class CatalogServices
         $length = $catalog->rig - $catalog->lef + 1;
 
         DB::beginTransaction();
+        $move = $this->moveCatalogBlog($catalog->id, $catalog->parent_id);
         $del = Catalog::where('lef', '>=', $catalog->lef)->where('rig', '<=', $catalog->rig)->delete();
         $update_rig = Catalog::where('rig', '>', $catalog->rig)->increment('rig', -$length);
         $update_lef = Catalog::where('lef', '>', $catalog->rig)->increment('lef', -$length);
 
-        if ($del && $update_rig && $update_lef) {
+        if ($del && $update_rig && $update_lef && $move) {
             DB::commit();
             return respSuc();
         } else {
@@ -78,6 +80,33 @@ class CatalogServices
         } else {
             DB::rollback();
             return respErr(10000);
+        }
+    }
+
+    /**
+     * @param $from_catalog_id
+     * @param $to_catalog_id
+     * @param int $type 0:只转移当前目录下的所有文章 1:转移当前目录和其下所有子目录的文章
+     */
+    public function moveCatalogBlog($from_catalog_id, $to_catalog_id, $type = 1)
+    {
+        $catalog_info = Catalog::where('id', $from_catalog_id)->first();
+        if($type == 2){
+            //所有的子目录
+            $catalog_ids = Catalog::where('lef', '>=', $catalog_info->lef)
+                ->where('rig', '<=', $catalog_info->rig)
+                ->pluck('id');
+        }else{
+            //所有的子目录
+            $catalog_ids = Catalog::where('lef', '=', $catalog_info->lef)
+                ->where('rig', '=', $catalog_info->rig)
+                ->pluck('id');
+        }
+        try {
+            BlogList::whereIn('catalog_id', $catalog_ids)->update(['catalog_id' => $to_catalog_id]);
+            return true;
+        } catch (Exception $e) {
+            return false;
         }
     }
 }
