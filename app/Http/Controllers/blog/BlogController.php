@@ -73,6 +73,8 @@ class BlogController extends Controller
         $blog_model = $blog_model->select('blog_list.*')->getCatalog();
         //获取博客内容
 //        $blog_model = $blog_model->addSelect('content.content')->leftJoin('content','blog_list.content_id','=','content.id');
+        //获取用户名
+        $blog_model = $blog_model->addSelect('member.acount')->leftJoin('member','blog_list.uid','=','member.uid');
         //分页
         $blog_model = $blog_model->skip(($page_no - 1) * $per_page)
             ->take($per_page);
