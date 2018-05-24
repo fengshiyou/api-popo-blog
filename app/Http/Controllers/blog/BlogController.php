@@ -26,7 +26,7 @@ class BlogController extends Controller
             return respErr(50000, $error);
         }
         $blog_service = new BlogServices();
-        if (!in_array('blog_id',$param)) {
+        if (!array_key_exists('blog_id',$param)) {
             $result = $blog_service->blogAdd($param);
         } else {
             $result = $blog_service->blogEdit($param);
