@@ -55,8 +55,8 @@ class BlogController extends Controller
         $order_by = request()->get('order_by') ? request()->get('order_by') : 'created_at';
         $blog_model = new BlogList();
         if ($tag_id) {//按标签搜索
-            $blog_model = $blog_model->where('blog_tag.id', $tag_id)
-                ->leftJoin('blog_tag', 'blog_tag.id', "=", "blog_list.id");
+            $blog_model = $blog_model->where('blog_tag.tag_id', $tag_id)
+                ->leftJoin('blog_tag', 'blog_tag.blog_id', "=", "blog_list.id");
         } elseif ($catalog_id) {//按目录搜索
             $blog_model = $blog_model->where('catalog_id', $catalog_id);
         }
