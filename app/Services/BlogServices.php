@@ -58,7 +58,7 @@ class BlogServices
         $blog_tag_insert = BlogTag::insert($blog_tag);
         if ($content_id && $blog_id && $blog_tag_insert) {
             DB::commit();
-            return respSuc();
+            return respSuc(['id' => $blog_id]);
         } else {
             DB::rollback();
             return respErr(10000);
@@ -108,7 +108,7 @@ class BlogServices
             //博客内容保存
             $content_info->save();
             DB::commit();
-            return respSuc();
+            return respSuc(['id' => $blog_info->id]);
         } catch (Exception $e) {
             DB::rollback();//事务回滚
             echo $e->getMessage();
