@@ -26,10 +26,15 @@ Route::group(['namespace' => 'user', 'prefix' => 'user'], function () {
 });
 //留言相关
 Route::group(['namespace' => 'comment', 'prefix' => 'comment'], function () {
-    //留言
+    //留言列表
     Route::get('/getList', 'CommentController@getList');
     //获取最后一条留言
     Route::get('/getLast', 'CommentController@getLast');
+});
+//回复相关
+Route::group(['namespace' => 'reply', 'prefix' => 'reply'], function () {
+    //回复列表
+    Route::get('/getList', 'ReplyController@getList');
 });
 //需要登陆验证
 Route::group(['middleware' => 'checklogin'], function () {
@@ -54,6 +59,11 @@ Route::group(['middleware' => 'checklogin'], function () {
     Route::group(['namespace' => 'comment', 'prefix' => 'comment'], function () {
         //评论
         Route::post('/add', 'CommentController@add');
+    });
+    //回复相关
+    Route::group(['namespace' => 'reply', 'prefix' => 'reply'], function () {
+        //回复
+        Route::post('/add', 'ReplyController@add');
     });
 });
 

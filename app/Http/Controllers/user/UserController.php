@@ -78,6 +78,7 @@ class UserController extends Controller
         $return_data['uid'] = $user_info['uid'];
         $return_data['token'] = $token;
         $return_data['user_name'] = $user_info['user_name'];
+        $return_data['acount'] = $user_info['acount'];
         return respSuc($return_data);
     }
 
