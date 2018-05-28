@@ -20,12 +20,19 @@ Route::group(['namespace' => 'blog', 'prefix' => 'blog'], function () {
     Route::get('/getList', 'BlogController@getList');
     Route::post('/getContent', 'BlogController@getContent');
 });
-Route::group(['namespace'=>'user','prefix'=>'user'],function (){
-    Route::post('/login','UserController@login');
-    Route::post('/register','UserController@register');
+Route::group(['namespace' => 'user', 'prefix' => 'user'], function () {
+    Route::post('/login', 'UserController@login');
+    Route::post('/register', 'UserController@register');
+});
+//留言相关
+Route::group(['namespace' => 'comment', 'prefix' => 'comment'], function () {
+    //留言
+    Route::get('/getList', 'CommentController@getList');
+    //获取最后一条留言
+    Route::get('/getLast', 'CommentController@getLast');
 });
 //需要登陆验证
-Route::group(['middleware'=>'checklogin'],function (){
+Route::group(['middleware' => 'checklogin'], function () {
     //博客相关
     Route::group(['namespace' => 'blog', 'prefix' => 'blog'], function () {
         //获取博客列表
@@ -35,14 +42,18 @@ Route::group(['middleware'=>'checklogin'],function (){
         //修改时 获取博客内容
         Route::post('/getEditContent', 'BlogController@getEditContent');
         //修改目录名称
-        Route::post('/renameCatalog','CatalogController@rename');
+        Route::post('/renameCatalog', 'CatalogController@rename');
         //新增目录
-        Route::post('/newCatalog','CatalogController@newCatalog');
+        Route::post('/newCatalog', 'CatalogController@newCatalog');
         //获取个人目录
         Route::post('/getMyCatalogList', 'CatalogController@getCatalogListHaveCount');
         //删除目录
         Route::post('/delMyCatalog', 'CatalogController@delCatalog');
-
+    });
+    //评论相关
+    Route::group(['namespace' => 'comment', 'prefix' => 'comment'], function () {
+        //评论
+        Route::post('/add', 'CommentController@add');
     });
 });
 
