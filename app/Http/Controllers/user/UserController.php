@@ -93,8 +93,24 @@ class UserController extends Controller
         if ($this->appValidata($pro, $error, $p)) {
             return respErr(5000, $error);
         }
+        //@todo 权限验证
         $redis = Redis::connection();
         $redis->del('TK_' . $p['uid']);
         return respSuc();
+    }
+    /**
+     * 获取用户信息
+     */
+    public function getMemberInfo(){
+        $pro = array(
+            'uid' => 'required',
+        );
+        if ($this->appValidata($pro, $error, $p)) {
+            return respErr(5000, $error);
+        }
+        $info = Member::where('uid',$p['uid'])
+            ->select('uid','acount')
+            ->first();
+        return respSuc($info);
     }
 }

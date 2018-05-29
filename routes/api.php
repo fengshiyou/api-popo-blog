@@ -20,9 +20,11 @@ Route::group(['namespace' => 'blog', 'prefix' => 'blog'], function () {
     Route::get('/getList', 'BlogController@getList');
     Route::post('/getContent', 'BlogController@getContent');
 });
+//用户相关
 Route::group(['namespace' => 'user', 'prefix' => 'user'], function () {
     Route::post('/login', 'UserController@login');
     Route::post('/register', 'UserController@register');
+    Route::get('/getMemberInfo', 'UserController@getMemberInfo');
 });
 //留言相关
 Route::group(['namespace' => 'comment', 'prefix' => 'comment'], function () {
@@ -40,8 +42,6 @@ Route::group(['namespace' => 'reply', 'prefix' => 'reply'], function () {
 Route::group(['middleware' => 'checklogin'], function () {
     //博客相关
     Route::group(['namespace' => 'blog', 'prefix' => 'blog'], function () {
-        //获取博客列表
-        Route::get('/myBlog', 'BlogController@getList');
         //保存博客内容
         Route::post('/save', 'BlogController@blogSave');
         //修改时 获取博客内容
