@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Comment;
 
+use App\model\BlogList;
 use App\Model\Comment;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
@@ -30,7 +31,10 @@ class CommentController extends Controller
         $comment->content = $param['content'];
         $comment->created_at = now();
         $comment->updated_at = now();
-
+        //如果是文章 更新文章评论数
+        if($param['comment_type'] == 'blog'){
+            BlogList::where('id', $param['id'])->increment('comment_count',1);
+        }
         $save = $comment->save();
         $floor = Comment::where('type', $param['comment_type'])
             ->where('type_id', $param['id'])

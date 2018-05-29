@@ -2,9 +2,11 @@
 
 namespace App\Http\Controllers\Reply;
 
+use App\Model\Comment;
 use App\Model\Reply;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\DB;
 
 /**
  * 回复评论
@@ -32,7 +34,7 @@ class ReplyController extends Controller
         $reply->to_uid = array_key_exists('to_uid', $param) ? $param['to_uid'] : "";
         $reply->created_at = now();
         $reply->updated_at = now();
-
+        DB::beginTransaction();
         $save = $reply->save();
         $data = Reply::where('id', $reply->id)
             ->select('reply.*')
@@ -41,9 +43,12 @@ class ReplyController extends Controller
             ->leftJoin('member as member1', 'reply.uid', '=', 'member1.uid')
             ->leftJoin('member as member2', 'reply.to_uid', '=', 'member2.uid')
             ->first();
-        if ($save) {
+        $reply_count = Comment::where('id',$param['comment_id'])->increment('reply_count',1);
+        if ($save && $reply_count) {
+            DB::commit();
             return respSuc($data);
         } else {
+            DB::rollback();
             return respErr(10000);
         }
     }
