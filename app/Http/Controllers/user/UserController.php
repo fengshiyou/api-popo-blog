@@ -35,7 +35,7 @@ class UserController extends Controller
         $user_model = new Member();
         $user_model->acount = $p['acount'];
         $user_model->solt = $solt;
-        $user_model->passwd = md5($p['passwd'] . $solt . $p['acount']. $now);
+        $user_model->passwd = md5($p['passwd'] . $solt . $p['acount'] . $now);
         $user_model->created_at = $now;
         $user_model->updated_at = $now;
         $user_model->save();
@@ -98,19 +98,76 @@ class UserController extends Controller
         $redis->del('TK_' . $p['uid']);
         return respSuc();
     }
+
     /**
-     * 获取用户信息
+     * 获取用户信息简版
      */
-    public function getMemberInfo(){
+    public function getMemberInfoSimplify()
+    {
         $pro = array(
             'uid' => 'required',
         );
         if ($this->appValidata($pro, $error, $p)) {
             return respErr(5000, $error);
         }
-        $info = Member::where('uid',$p['uid'])
-            ->select('uid','acount')
+        $info = Member::where('uid', $p['uid'])
+            ->select('uid', 'acount')
             ->first();
         return respSuc($info);
+    }
+
+    /**
+     * 获取用户信息详情
+     */
+    public function getMemberInfoDetail()
+    {
+        $pro = array(
+            'uid' => 'required',
+        );
+        if ($this->appValidata($pro, $error, $p)) {
+            return respErr(5000, $error);
+        }
+        $info = Member::where('uid', $p['uid'])
+            ->select(
+                'uid',
+                'acount',
+                'header_welcome',
+                'header_graph',
+                'icon_url',
+                'motto',
+                'link1',
+                'link1_des',
+                'link2',
+                'link2_des',
+                'link3',
+                'link3_des'
+            )
+            ->first();
+        return respSuc($info);
+    }
+
+    /**
+     * 修改用户详情
+     */
+    public function editUserInfo()
+    {
+        $input = request()->all();
+        $user = Member::find($input['login_uid']);
+        $user->header_graph = $input['header_graph'];
+        $user->header_welcome = $input['header_welcome'];
+        $user->icon_url = $input['icon_url'];
+        $user->link1 = $input['link1'];
+        $user->link1_des = $input['link1_des'];
+        $user->link2 = $input['link2'];
+        $user->link2_des = $input['link2_des'];
+        $user->link3 = $input['link3'];
+        $user->link3_des = $input['link3_des'];
+        $user->motto = $input['motto'];
+        $save = $user->save();
+        if($save){
+            return respSuc($user);
+        }else{
+            return respErr(10000);
+        }
     }
 }

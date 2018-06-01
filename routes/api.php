@@ -24,7 +24,8 @@ Route::group(['namespace' => 'blog', 'prefix' => 'blog'], function () {
 Route::group(['namespace' => 'user', 'prefix' => 'user'], function () {
     Route::post('/login', 'UserController@login');
     Route::post('/register', 'UserController@register');
-    Route::get('/getMemberInfo', 'UserController@getMemberInfo');
+    Route::get('/getMemberInfoSimplify', 'UserController@getMemberInfoSimplify');
+    Route::get('/getMemberInfoDetail', 'UserController@getMemberInfoDetail');
 });
 //留言相关
 Route::group(['namespace' => 'comment', 'prefix' => 'comment'], function () {
@@ -54,6 +55,10 @@ Route::group(['middleware' => 'checklogin'], function () {
         Route::post('/getMyCatalogList', 'CatalogController@getCatalogListHaveCount');
         //删除目录
         Route::post('/delMyCatalog', 'CatalogController@delCatalog');
+    });
+    Route::group(['namespace' => 'user', 'prefix' => 'user'], function () {
+        //修改个人信息
+        Route::post('/editUserInfo', 'UserController@editUserInfo');
     });
     //评论相关
     Route::group(['namespace' => 'comment', 'prefix' => 'comment'], function () {
