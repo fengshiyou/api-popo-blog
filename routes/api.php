@@ -70,5 +70,16 @@ Route::group(['middleware' => 'checklogin'], function () {
         //回复
         Route::post('/add', 'ReplyController@add');
     });
+    //auth相关API
+    Route::group(['middleware' => 'checkpower'], function () {
+        Route::group(['namespace' => 'power', 'prefix' => 'power'], function () {
+            Route::get('/getPowerList', 'PowerController@getPowerList');
+            Route::post('/setPower', 'PowerController@setPower');
+            Route::post('/addPowerRole', 'PowerController@addPowerRole');
+            Route::post('/delPowerRole', 'PowerController@delPowerRole');
+            Route::post('/addPowerUrl', 'PowerController@addPowerUrl');
+            Route::post('/delPowerUrl', 'PowerController@delPowerUrl');
+        });
+    });
 });
 
