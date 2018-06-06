@@ -80,6 +80,10 @@ Route::group(['middleware' => 'checklogin'], function () {
             Route::post('/addPowerUrl', 'PowerController@addPowerUrl');
             Route::post('/delPowerUrl', 'PowerController@delPowerUrl');
         });
+        Route::group(['namespace' => 'tag', 'prefix' => 'tag'], function () {
+            Route::post('/del', 'TagController@del');
+            Route::post('/edit', 'TagController@edit');
+        });
     });
 });
 
