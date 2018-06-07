@@ -62,6 +62,9 @@ class UserController extends Controller
         if (!$user_info) {
             return respErr(20001);
         }
+        if ($user_info->enabled == 0) {
+            return respErr(10);
+        }
         //密码 + solt + 用户名 + 创建时间 = 最终密码
         $passwd = md5($p['passwd'] . $user_info->solt . $user_info->acount . $user_info->created_at);
         //校验密码
@@ -164,9 +167,103 @@ class UserController extends Controller
         $user->link3_des = $input['link3_des'];
         $user->motto = $input['motto'];
         $save = $user->save();
-        if($save){
+        if ($save) {
             return respSuc($user);
-        }else{
+        } else {
+            return respErr(10000);
+        }
+    }
+
+    /**
+     * 获取用户列表
+     */
+    public function getList()
+    {
+        //页数
+        $page_no = request()->get('page_no') ? request()->get('page_no') : 1;
+        //每页数量
+        $per_page = request()->get('per_page') > 0 && request()->get('per_page') <= 10 ? request()->get('per_page') : 10;
+        $member = new Member();
+        $total = $member->count();
+        $data = $member->skip(($page_no - 1) * $per_page)
+            ->select(
+                'uid',
+                'acount',
+                'created_at',
+                'enabled',
+                'updated_at',
+                'power_role_id'
+            )
+            ->take($per_page)
+            ->orderBy('uid', 'desc')
+            ->get();
+
+        return respSuc(['list' => $data, 'total' => $total]);
+    }
+
+    /**
+     * 重置密码
+     */
+    public function resetPasswd()
+    {
+        $pro = array(
+            'uid' => 'required',
+        );
+        if ($this->appValidata($pro, $error, $p)) {
+            return respErr(5000, $error);
+        }
+        $member = new Member();
+        $user_info = $member->where('uid', $p['uid'])->first();
+        $passwd = md5("123456" . $user_info->solt . $user_info->acount . $user_info->created_at);
+        $user_info->passwd = $passwd;
+        $re = $user_info->save();
+        if ($re) {
+            return respSuc();
+        } else {
+            return respErr(10000);
+        }
+    }
+
+    /**
+     * 设置用户启用禁用
+     */
+    public function setEnabled()
+    {
+        $pro = array(
+            'uid' => 'required',
+            'enabled' => 'required'
+        );
+        if ($this->appValidata($pro, $error, $p)) {
+            return respErr(5000, $error);
+        }
+        $member_info = Member::where('uid', $p['uid'])->first();
+        $member_info->enabled = $p['enabled'] ? 1 : 0;
+        $save = $member_info->save();
+        if ($save) {
+            return respSuc();
+        } else {
+            return respErr(10000);
+        }
+    }
+
+    /**
+     * 设置用户权限角色
+     */
+    public function setPowerRole()
+    {
+        $pro = array(
+            'uid' => 'required',
+            'power_role_id' => 'required'
+        );
+        if ($this->appValidata($pro, $error, $p)) {
+            return respErr(5000, $error);
+        }
+        $member_info = Member::where('uid', $p['uid'])->first();
+        $member_info->power_role_id = $p['power_role_id'];
+        $save = $member_info->save();
+        if ($save) {
+            return respSuc();
+        } else {
             return respErr(10000);
         }
     }

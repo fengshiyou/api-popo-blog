@@ -4,6 +4,7 @@ namespace App\Http;
 
 use App\Http\Middleware\CheckLoginMiddleware;
 use App\Http\Middleware\CheckPowerMiddleware;
+use App\Http\Middleware\LogMiddleware;
 use Illuminate\Foundation\Http\Kernel as HttpKernel;
 
 class Kernel extends HttpKernel
@@ -63,5 +64,6 @@ class Kernel extends HttpKernel
         'throttle' => \Illuminate\Routing\Middleware\ThrottleRequests::class,
         'checklogin'=>CheckLoginMiddleware::class,
         'checkpower'=>CheckPowerMiddleware::class,
+        'log'=>LogMiddleware::class,
     ];
 }

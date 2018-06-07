@@ -23,7 +23,7 @@ class CatalogServices
     public function initCatalog(Member $user)
     {
         $catalog = new Catalog();
-        $catalog->uid = $user->id;
+        $catalog->uid = $user->uid;
         $catalog->catalog_name = $user->acount;
         $catalog->lef = 1;
         $catalog->rig = 2;
