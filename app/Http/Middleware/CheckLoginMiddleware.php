@@ -2,6 +2,7 @@
 
 namespace App\Http\Middleware;
 
+use App\Model\Member;
 use Closure;
 use Illuminate\Support\Facades\Redis;
 
@@ -24,6 +25,10 @@ class CheckLoginMiddleware extends BaseMiddleware
 //            $mid_params['token'] = $token;
 //            $mid_params['login_uid'] = $uid;
 //            $request->merge($mid_params);
+            $user_info = Member::where('uid',$uid)->first();
+            if ($user_info->enabled == 0) {
+                return respErr(10);
+            }
             return 0;
         } else {
             return respErr(1);
