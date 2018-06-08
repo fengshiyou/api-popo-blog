@@ -30,7 +30,7 @@ class LogMiddleware extends BaseMiddleware
                 $realip = getenv('REMOTE_ADDR');
             }
         }
-        $uid = request()->get('login_uid');
+        $uid = request()->header('loginUid');
         $member_info = '';
         if ($uid) {
             $member_info = Member::where('uid', $uid)->first();

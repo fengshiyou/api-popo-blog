@@ -156,16 +156,16 @@ class UserController extends Controller
     {
         $input = request()->all();
         $user = Member::find($input['login_uid']);
-        $user->header_graph = $input['header_graph'];
-        $user->header_welcome = $input['header_welcome'];
-        $user->icon_url = $input['icon_url'];
-        $user->link1 = $input['link1'];
-        $user->link1_des = $input['link1_des'];
-        $user->link2 = $input['link2'];
-        $user->link2_des = $input['link2_des'];
-        $user->link3 = $input['link3'];
-        $user->link3_des = $input['link3_des'];
-        $user->motto = $input['motto'];
+        $user->header_graph = array_key_exists('header_graph', $input) ? $input['header_graph'] : '';
+        $user->header_welcome = array_key_exists('header_welcome', $input) ? $input['header_welcome'] : '';
+        $user->icon_url = array_key_exists('icon_url', $input) ? $input['icon_url'] : '';
+        $user->link1 = array_key_exists('link1', $input) ? $input['link1'] : '';
+        $user->link1_des = array_key_exists('link1_des', $input) ? $input['link1_des'] : '';
+        $user->link2 = array_key_exists('link2', $input) ? $input['link2'] : '';
+        $user->link2_des = array_key_exists('link2_des', $input) ? $input['link2_des'] : '';
+        $user->link3 = array_key_exists('link3', $input) ? $input['link3'] : '';
+        $user->link3_des = array_key_exists('link3_des', $input) ? $input['link3_des'] : '';
+        $user->motto = array_key_exists('motto', $input) ? $input['motto'] : '';
         $save = $user->save();
         if ($save) {
             return respSuc($user);

@@ -10,8 +10,8 @@ class CheckLoginMiddleware extends BaseMiddleware
 {
     public function match($request)
     {
-        $uid = $request->get('login_uid');
-        $token = $request->get('token');
+        $uid = $request->header('loginUid');
+        $token = $request->header('token');
 
         if (!$token) {
             return respErr(1);
@@ -23,9 +23,9 @@ class CheckLoginMiddleware extends BaseMiddleware
         $redis_token = $redis->get('TK_' . $uid);
         if ($redis_token == $token) {
 //            $mid_params['token'] = $token;
-//            $mid_params['login_uid'] = $uid;
-//            $request->merge($mid_params);
-            $user_info = Member::where('uid',$uid)->first();
+            $mid_params['login_uid'] = $uid;
+            $request->merge($mid_params);
+            $user_info = Member::where('uid', $uid)->first();
             if ($user_info->enabled == 0) {
                 return respErr(10);
             }
