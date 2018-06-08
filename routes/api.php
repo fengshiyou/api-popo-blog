@@ -91,6 +91,10 @@ Route::group(['middleware' => 'log'], function () {
                 Route::post('/setEnabled', 'UserController@setEnabled');
                 Route::post('/setPowerRole', 'UserController@setPowerRole');
             });
+            //日志相关
+            Route::group(['namespace' => 'log', 'prefix' => 'log'], function () {
+                Route::post('/getList', 'LogController@getList');
+            });
 
         });
     });

@@ -2,6 +2,7 @@
 
 namespace App\Http\Middleware;
 
+use App\model\Log;
 use App\Model\Member;
 use App\Model\PowerRole;
 use App\Model\PowerUrl;
@@ -29,7 +30,18 @@ class LogMiddleware extends BaseMiddleware
                 $realip = getenv('REMOTE_ADDR');
             }
         }
-        var_dump(request()->get('_url'));die;
+        $uid = request()->get('login_uid');
+        $member_info = '';
+        if ($uid) {
+            $member_info = Member::where('uid', $uid)->first();
+        }
+        $log = new Log();
+        $log->client_ip = $realip;
+        $log->acount = $member_info ? $member_info->acount : '';
+        $log->action = request()->get('_url');
+        $log->params = json_encode(request()->all());
+        $log->created_at = now();
+        $log->save();
         return 0;
     }
 }
