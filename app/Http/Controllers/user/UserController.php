@@ -183,9 +183,12 @@ class UserController extends Controller
         $page_no = request()->get('page_no') ? request()->get('page_no') : 1;
         //每页数量
         $per_page = request()->get('per_page') > 0 && request()->get('per_page') <= 10 ? request()->get('per_page') : 10;
-        $member = new Member();
-        $total = $member->count();
-        $data = $member->skip(($page_no - 1) * $per_page)
+        $data = new Member();
+        if (request()->get('acount_search')) {
+            $data = $data->where('acount', 'like', "%".request()->get('acount_search')."%");
+        }
+        $total = $data->count();
+        $data = $data->skip(($page_no - 1) * $per_page)
             ->select(
                 'uid',
                 'acount',
@@ -198,7 +201,7 @@ class UserController extends Controller
             ->orderBy('uid', 'desc')
             ->get();
 
-        return respSuc(['list' => $data, 'total' => $total]);
+        return respSuc(['list' => $data, 'total' => $total,'page_no'=>$page_no]);
     }
 
     /**
