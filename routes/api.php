@@ -12,6 +12,9 @@ use Illuminate\Http\Request;
 | is assigned the "api" middleware group. Enjoy building your API!
 |
 */
+//github hook
+Route::post('/hook','GithubHookController@index');
+
 Route::group(['middleware' => 'log'], function () {
 //blog相关API
     Route::group(['namespace' => 'blog', 'prefix' => 'blog'], function () {
@@ -75,6 +78,7 @@ Route::group(['middleware' => 'log'], function () {
             Route::group(['namespace' => 'power', 'prefix' => 'power'], function () {
                 Route::get('/getPowerList', 'PowerController@getPowerList');
                 Route::post('/setPower', 'PowerController@setPower');
+                Route::post('/setWebUrlPower', 'PowerController@setWebUrlPower');
                 Route::post('/addPowerRole', 'PowerController@addPowerRole');
                 Route::post('/delPowerRole', 'PowerController@delPowerRole');
                 Route::post('/addPowerUrl', 'PowerController@addPowerUrl');
@@ -90,12 +94,16 @@ Route::group(['middleware' => 'log'], function () {
                 Route::post('/resetPasswd', 'UserController@resetPasswd');
                 Route::post('/setEnabled', 'UserController@setEnabled');
                 Route::post('/setPowerRole', 'UserController@setPowerRole');
+                Route::post('/getMemberPower', 'UserController@getMemberPower');
             });
             //日志相关
             Route::group(['namespace' => 'log', 'prefix' => 'log'], function () {
                 Route::post('/getList', 'LogController@getList');
             });
-
+            //前端路由权限相关
+            Route::group(['namespace' => 'WebUrl', 'prefix' => 'WebUrl'], function () {
+                Route::post('/getList', 'WebUrlController@getList');
+            });
         });
     });
 });
