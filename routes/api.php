@@ -15,6 +15,7 @@ use Illuminate\Http\Request;
 //github hook
 Route::post('/hook','GithubHookController@index');
 
+
 Route::group(['middleware' => 'log'], function () {
 //blog相关API
     Route::group(['namespace' => 'blog', 'prefix' => 'blog'], function () {
