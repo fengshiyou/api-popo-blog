@@ -95,4 +95,16 @@ class PowerController extends Controller
         PowerUrl::where('id', $p['id'])->delete();
         return respSuc();
     }
+    public function setWebUrlPower()
+    {
+        $pro = array(
+            'id' => 'required',
+        );
+        if ($this->appValidata($pro, $error, $p)) {
+            return respErr(5000, $error);
+        }
+
+        PowerRole::where('id', $p['id'])->update(['web_url_power' => $p['power']]);
+        return respSuc();
+    }
 }

@@ -132,23 +132,40 @@ class UserController extends Controller
         }
         $info = Member::where('uid', $p['uid'])
             ->select(
-                'uid',
-                'acount',
-                'header_welcome',
-                'header_graph',
-                'icon_url',
-                'motto',
-                'link1',
-                'link1_des',
-                'link2',
-                'link2_des',
-                'link3',
-                'link3_des'
+                'member.uid',
+                'member.acount',
+                'member.header_welcome',
+                'member.header_graph',
+                'member.icon_url',
+                'member.motto',
+                'member.link1',
+                'member.link1_des',
+                'member.link2',
+                'member.link2_des',
+                'member.link3',
+                'member.link3_des'
             )
+            ->addSelect('power_role.power','power_role.web_url_power')
+            ->leftJoin('power_role','member.power_role_id','=','power_role.id')
             ->first();
         return respSuc($info);
     }
-
+    /**
+     * 获取用户权限
+     */
+    public function getMemberPower(){
+        $pro = array(
+            'login_uid' => 'required',
+        );
+        if ($this->appValidata($pro, $error, $p)) {
+            return respErr(5000, $error);
+        }
+        $info = Member::where('uid', $p['login_uid'])
+            ->select('power_role.power','power_role.web_url_power')
+            ->leftJoin('power_role','member.power_role_id','=','power_role.id')
+            ->first();
+        return respSuc($info);
+    }
     /**
      * 修改用户详情
      */
