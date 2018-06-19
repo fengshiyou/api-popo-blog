@@ -101,7 +101,7 @@ Route::group(['middleware' => 'log'], function () {
                 Route::post('/getList', 'LogController@getList');
             });
             //前端路由权限相关
-            Route::group(['namespace' => 'WebUrl', 'prefix' => 'WebUrl'], function () {
+            Route::group(['namespace' => 'weburl', 'prefix' => 'weburl'], function () {
                 Route::post('/getList', 'WebUrlController@getList');
             });
         });
