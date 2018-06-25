@@ -27,4 +27,29 @@ class BlogList extends Model
 
         return $query;
     }
+
+    // 创建数据库语句
+    protected function sql_init()
+    {
+        //删除表
+        $del_sql = 'DROP TABLE  IF EXISTS `' . self::getTable() . '`;';
+        echo $del_sql;
+        DB::connection($this->connection)->statement($del_sql);
+        //创建表
+        $sql = "
+    CREATE TABLE `" . self::getTable() . "` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `uid` int(11) NOT NULL DEFAULT '0' COMMENT '用户ID',
+  `title` varchar(255) NOT NULL DEFAULT '0' COMMENT '标题',
+  `content_id` int(11) DEFAULT '0' COMMENT '内容ID',
+  `catalog_id` int(11) DEFAULT '0' COMMENT '目录ID',
+  `tags` varchar(255) DEFAULT '0' COMMENT '标签id  |12|23434|234|2323',
+  `comment_count` int(11) NOT NULL DEFAULT '0' COMMENT '评论数',
+  `updated_at` datetime NOT NULL,
+  `created_at` datetime NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4;
+";
+        DB::connection($this->connection)->statement($sql);
+    }
 }

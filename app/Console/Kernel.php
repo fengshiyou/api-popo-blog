@@ -13,7 +13,8 @@ class Kernel extends ConsoleKernel
      * @var array
      */
     protected $commands = [
-        //
+        //表结构管理
+        \App\Console\Commands\TableManage::class
     ];
 
     /**
