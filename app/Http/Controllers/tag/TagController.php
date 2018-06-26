@@ -25,7 +25,7 @@ class TagController extends Controller
             'id' => 'required',
         );
         if ($this->appValidata($pro, $error, $p)) {
-            return respErr(5000, $error);
+            return respErr(50000, $error);
         }
         Tag::where('id', $p['id'])->delete();
         return respSuc();
@@ -41,7 +41,7 @@ class TagController extends Controller
             'color' => 'required',
         );
         if ($this->appValidata($pro, $error, $p)) {
-            return respErr(5000, $error);
+            return respErr(50000, $error);
         }
         if (array_key_exists('id',$p)) {//修改
             Tag::where('id', $p['id'])->update(['name' => $p['name'], 'color' => $p['color']]);

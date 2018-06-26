@@ -14,7 +14,7 @@ class UserController extends Controller
      * @api {post} /api/user/register 01-用户注册
      * @apiDescription 用户注册
      * @apiGroup 01-user
-     * @apiName login
+     * @apiName register
      *
      *
      * @apiParam {String} acount 账号
@@ -24,8 +24,8 @@ class UserController extends Controller
      * @apiVersion 1.0.0
      * @apiErrorExample {json} 错误返回值:
      * {
-     * "code": 1001,
-     * "detail": "账号或密码错误",
+     * "code": 20003,
+     * "detail": "账号已存在",
      * "data": ""
      * }
      * @apiSuccessExample {json} 正确返回值:
@@ -33,13 +33,10 @@ class UserController extends Controller
      * "code": 200,
      * "detail": "success",
      * "data": {
-     * "user_id": "6",
+     * "uid": "6",
      * "token": "4MRhjarXvynrtkmS"
+     * "acount": "fsy"
      * }
-     * }
-     */
-    /**
-     * 用户注册
      */
     public function register()
     {
@@ -49,7 +46,7 @@ class UserController extends Controller
             'passwd_check' => 'required|between:2,18',
         ];
         if ($this->appValidata($pro, $error, $p)) {
-            return respErr(5000, $error);
+            return respErr(50000, $error);
         }
         if ($p['passwd'] != $p['passwd_check']) {
             return respErr(20002);
@@ -74,7 +71,31 @@ class UserController extends Controller
     }
 
     /**
-     * 用户登陆
+     * @api {post} /api/user/login 02-用户登陆
+     * @apiDescription 用户登录
+     * @apiGroup 01-user
+     * @apiName login
+     *
+     *
+     * @apiParam {String} acount 账号
+     * @apiParam {String} passwd 密码
+     *
+     * @apiVersion 1.0.0
+     * @apiErrorExample {json} 错误返回值:
+     * {
+     * "code": 20001,
+     * "detail": "账号或密码错误",
+     * "data": ""
+     * }
+     * @apiSuccessExample {json} 正确返回值:
+     * {
+     * "code": 200,
+     * "detail": "success",
+     * "data": {
+     * "uid": "6",
+     * "token": "4MRhjarXvynrtkmS"
+     * "acount": "fsy"
+     * }
      */
     public function login()
     {
@@ -83,7 +104,7 @@ class UserController extends Controller
             'passwd' => 'required|between:2,18'
         ];
         if ($this->appValidata($pro, $error, $p)) {
-            return respErr(5000, $error);
+            return respErr(50000, $error);
         }
         //获取用户信息
         $user_info = Member::where('acount', $p['acount'])->first();
@@ -113,8 +134,21 @@ class UserController extends Controller
         return respSuc($return_data);
     }
 
-    /*
-     * 登出
+    /**
+     * @api {post} /api/user/register 03-退出登录
+     * @apiDescription 退出登录
+     * @apiGroup 01-user
+     * @apiName logout
+     *
+     * @apiParam {Init} uid 用户ID
+     *
+     * @apiVersion 1.0.0
+     * @apiSuccessExample {json} 正确返回值:
+     * {
+     * "code": 200,
+     * "detail": "success",
+     * "data": {
+     * }
      */
     public function logout()
     {
@@ -122,16 +156,37 @@ class UserController extends Controller
             'uid' => 'required',
         );
         if ($this->appValidata($pro, $error, $p)) {
-            return respErr(5000, $error);
+            return respErr(50000, $error);
         }
-        //@todo 权限验证
         $redis = Redis::connection();
         $redis->del('TK_' . $p['uid']);
         return respSuc();
     }
 
     /**
-     * 获取用户信息简版
+     * @api {post} /api/user/getMemberInfoSimplify 04-用户信息(简版)
+     * @apiDescription 用户信息(简版)-需要登陆验证
+     * @apiGroup 01-user
+     * @apiName getMemberInfoSimplify
+     *
+     *
+     * @apiParam {Int} uid 用户ID
+     *
+     * @apiVersion 1.0.0
+     * @apiErrorExample {json} 错误返回值:
+     * {
+     * "code": 20001,
+     * "detail": "用户不存在",
+     * "data": ""
+     * }
+     * @apiSuccessExample {json} 正确返回值:
+     * {
+     * "code": 200,
+     * "detail": "success",
+     * "data": {
+     * "uid": "6",
+     * "acount": "fsy"
+     * }
      */
     public function getMemberInfoSimplify()
     {
@@ -139,7 +194,7 @@ class UserController extends Controller
             'uid' => 'required',
         );
         if ($this->appValidata($pro, $error, $p)) {
-            return respErr(5000, $error);
+            return respErr(50000, $error);
         }
         $info = Member::where('uid', $p['uid'])
             ->select('uid', 'acount')
@@ -148,7 +203,38 @@ class UserController extends Controller
     }
 
     /**
-     * 获取用户信息详情
+     * @api {post} /api/user/getMemberInfoDetail 05-用户详情
+     * @apiDescription 用户详情-需要登陆验证
+     * @apiGroup 01-user
+     * @apiName getMemberInfoDetail
+     *
+     *
+     * @apiParam {Int} uid 用户ID
+     *
+     * @apiVersion 1.0.0
+     * @apiErrorExample {json} 错误返回值:
+     * {
+     * "code": 20001,
+     * "detail": "用户不存在",
+     * "data": ""
+     * }
+     * @apiSuccessExample {json} 正确返回值:
+     * {
+     * "code": 200,
+     * "detail": "success",
+     * "data": {
+     * "uid": "6",
+     * "header_welcome": "头部导航欢迎语" //头部导航欢迎语
+     * "header_graph": "头部签名" //头部签名
+     * "icon_url": "www.baidu.com" //头像链接
+     * "motto": "座右铭" //座右铭
+     * "link1": "www.baidu.com"
+     * "link1_des": "超链接1描述" //超链接1描述
+     * "link2": "www.baidu.com"
+     * "link2_des": "超链接2描述" //超链接2描述
+     * "link3": "www.baidu.com"
+     * "link3_des": "超链接3描述" //超链接3描述
+     * }
      */
     public function getMemberInfoDetail()
     {
@@ -156,7 +242,7 @@ class UserController extends Controller
             'uid' => 'required',
         );
         if ($this->appValidata($pro, $error, $p)) {
-            return respErr(5000, $error);
+            return respErr(50000, $error);
         }
         $info = Member::where('uid', $p['uid'])
             ->select(
@@ -173,29 +259,95 @@ class UserController extends Controller
                 'member.link3',
                 'member.link3_des'
             )
-            ->addSelect('power_role.power','power_role.web_url_power')
-            ->leftJoin('power_role','member.power_role_id','=','power_role.id')
+            ->addSelect('power_role.power', 'power_role.web_url_power')
+            ->leftJoin('power_role', 'member.power_role_id', '=', 'power_role.id')
             ->first();
         return respSuc($info);
     }
+
     /**
-     * 获取用户权限
+     * @api {post} /api/user/getMemberPower 06-获取登陆用户权限
+     * @apiDescription 获取登陆用户权限-需要登陆验证
+     * @apiGroup 01-user
+     * @apiName getMemberPower
+     *
+     *
+     * @apiHeader {Int} login_uid 用户ID
+     *
+     * @apiVersion 1.0.0
+     * @apiErrorExample {json} 错误返回值:
+     * {
+     * "code": 20001,
+     * "detail": "用户不存在",
+     * "data": ""
+     * }
+     * @apiSuccessExample {json} 正确返回值:
+     * {
+     * "code": 200,
+     * "detail": "success",
+     * "data": {
+     * "power": "6", //权限值
+     * "web_url_power": "6", //前端路由权限值
+     * }
      */
-    public function getMemberPower(){
+    public function getMemberPower()
+    {
         $pro = array(
             'login_uid' => 'required',
         );
         if ($this->appValidata($pro, $error, $p)) {
-            return respErr(5000, $error);
+            return respErr(50000, $error);
         }
         $info = Member::where('uid', $p['login_uid'])
-            ->select('power_role.power','power_role.web_url_power')
-            ->leftJoin('power_role','member.power_role_id','=','power_role.id')
+            ->select('power_role.power', 'power_role.web_url_power')
+            ->leftJoin('power_role', 'member.power_role_id', '=', 'power_role.id')
             ->first();
         return respSuc($info);
     }
+
     /**
-     * 修改用户详情
+     * @api {post} /api/user/editUserInfo 07-修改用户详情
+     * @apiDescription 修改用户详情-需要登陆验证
+     * @apiGroup 01-user
+     * @apiName editUserInfo
+     *
+     *
+     * @apiHeader {Int} login_uid 用户ID
+     * @apiParam {String} [header_graph] 头部签名
+     * @apiParam {String} [header_welcome] 头部导航欢迎语
+     * @apiParam {String} [icon_url] 头像链接
+     * @apiParam {String} [link1] 超链接1
+     * @apiParam {String} [link1_des] 超链接1描述
+     * @apiParam {String} [link2] 超链接2
+     * @apiParam {String} [link2_des] 超链接2描述
+     * @apiParam {String} [link3] 超链接3
+     * @apiParam {String} [link3_des] 超链接3描述
+     * @apiParam {String} [motto] 座右铭
+     *
+     * @apiVersion 1.0.0
+     * @apiErrorExample {json} 错误返回值:
+     * {
+     * "code": 20001,
+     * "detail": "用户不存在",
+     * "data": ""
+     * }
+     * @apiSuccessExample {json} 正确返回值:
+     * {
+     * "code": 200,
+     * "detail": "success",
+     * "data": {
+     * "uid": "6",
+     * "header_welcome": "头部导航欢迎语" //头部导航欢迎语
+     * "header_graph": "头部签名" //头部签名
+     * "icon_url": "www.baidu.com" //头像链接
+     * "motto": "座右铭" //座右铭
+     * "link1": "www.baidu.com"
+     * "link1_des": "超链接1描述" //超链接1描述
+     * "link2": "www.baidu.com"
+     * "link2_des": "超链接2描述" //超链接2描述
+     * "link3": "www.baidu.com"
+     * "link3_des": "超链接3描述" //超链接3描述
+     * }
      */
     public function editUserInfo()
     {
@@ -220,7 +372,39 @@ class UserController extends Controller
     }
 
     /**
-     * 获取用户列表
+     * @api {post} /api/user/getList 08-获取用户列表
+     * @apiDescription 获取用户列表-需要登陆验证-需要权限验证
+     * @apiGroup 01-user
+     * @apiName getList
+     *
+     *
+     * @apiHeader {Int} login_uid 用户ID
+     * @apiParam {String} [page_no] 第几页
+     * @apiParam {String} [per_page] 每页数据量 (默认10 最大10)
+     * @apiParam {String} [acount_search] 需要搜索的账号
+     *
+     * @apiVersion 1.0.0
+     * @apiErrorExample {json} 错误返回值:
+     * {
+     * "code": 1004,
+     * "detail": "权限不足",
+     * "data": ""
+     * }
+     * @apiSuccessExample {json} 正确返回值:
+     * {
+     * "code": 200,
+     * "detail": "success",
+     * "data": [
+     *     {
+     *      "uid": "6",
+     *      "acount": "1" //账号
+     *      "created_at": "2018-08-08 10:10:10" //创建日期
+     *      "enabled": "0" //1：启用 .：禁用
+     *      "updated_at": "2018-08-08 10:10:10" //修改日期
+     *      "power_role_id": "www.baidu.com"
+     *     }
+     * ......
+     * ]
      */
     public function getList()
     {
@@ -230,7 +414,7 @@ class UserController extends Controller
         $per_page = request()->get('per_page') > 0 && request()->get('per_page') <= 10 ? request()->get('per_page') : 10;
         $data = new Member();
         if (request()->get('acount_search')) {
-            $data = $data->where('acount', 'like', "%".request()->get('acount_search')."%");
+            $data = $data->where('acount', 'like', "%" . request()->get('acount_search') . "%");
         }
         $total = $data->count();
         $data = $data->skip(($page_no - 1) * $per_page)
@@ -246,11 +430,30 @@ class UserController extends Controller
             ->orderBy('uid', 'desc')
             ->get();
 
-        return respSuc(['list' => $data, 'total' => $total,'page_no'=>$page_no]);
+        return respSuc(['list' => $data, 'total' => $total, 'page_no' => $page_no]);
     }
 
     /**
-     * 重置密码
+     * @api {post} /api/user/resetPasswd 09-重置用户密码
+     * @apiDescription 重置用户密码-需要登陆验证-需要权限验证
+     * @apiGroup 01-user
+     * @apiName resetPasswd
+     *
+     * @apiHeader {Int} login_uid 用户ID
+     * @apiParam {Int} uid 用户ID
+     *
+     * @apiVersion 1.0.0
+     * @apiErrorExample {json} 错误返回值:
+     * {
+     * "code": 1004,
+     * "detail": "权限不足",
+     * "data": ""
+     * }
+     * @apiSuccessExample {json} 正确返回值:
+     * {
+     * "code": 200,
+     * "detail": "success",
+     * "data": {}
      */
     public function resetPasswd()
     {
@@ -258,7 +461,7 @@ class UserController extends Controller
             'uid' => 'required',
         );
         if ($this->appValidata($pro, $error, $p)) {
-            return respErr(5000, $error);
+            return respErr(50000, $error);
         }
         $member = new Member();
         $user_info = $member->where('uid', $p['uid'])->first();
@@ -273,7 +476,27 @@ class UserController extends Controller
     }
 
     /**
-     * 设置用户启用禁用
+     * @api {post} /api/user/setEnabled 10-设置用户启用禁用
+     * @apiDescription 设置用户启用禁用-需要登陆验证-需要权限验证
+     * @apiGroup 01-user
+     * @apiName setEnabled
+     *
+     * @apiHeader {Int} login_uid 用户ID
+     * @apiParam {Int} uid 用户ID
+     * @apiParam {Int} enabled 0：禁用 1：启用
+     *
+     * @apiVersion 1.0.0
+     * @apiErrorExample {json} 错误返回值:
+     * {
+     * "code": 1004,
+     * "detail": "权限不足",
+     * "data": ""
+     * }
+     * @apiSuccessExample {json} 正确返回值:
+     * {
+     * "code": 200,
+     * "detail": "success",
+     * "data": {}
      */
     public function setEnabled()
     {
@@ -282,7 +505,7 @@ class UserController extends Controller
             'enabled' => 'required'
         );
         if ($this->appValidata($pro, $error, $p)) {
-            return respErr(5000, $error);
+            return respErr(50000, $error);
         }
         $member_info = Member::where('uid', $p['uid'])->first();
         $member_info->enabled = $p['enabled'] ? 1 : 0;
@@ -295,7 +518,27 @@ class UserController extends Controller
     }
 
     /**
-     * 设置用户权限角色
+     * @api {post} /api/user/setPowerRole 11-设置用户权限角色
+     * @apiDescription 设置用户权限角色-需要登陆验证-需要权限验证
+     * @apiGroup 01-user
+     * @apiName setPowerRole
+     *
+     * @apiHeader {Int} login_uid 用户ID
+     * @apiParam {Int} uid 用户ID
+     * @apiParam {Int} power_role_id 权限角色ID
+     *
+     * @apiVersion 1.0.0
+     * @apiErrorExample {json} 错误返回值:
+     * {
+     * "code": 1004,
+     * "detail": "权限不足",
+     * "data": ""
+     * }
+     * @apiSuccessExample {json} 正确返回值:
+     * {
+     * "code": 200,
+     * "detail": "success",
+     * "data": {}
      */
     public function setPowerRole()
     {
@@ -304,7 +547,7 @@ class UserController extends Controller
             'power_role_id' => 'required'
         );
         if ($this->appValidata($pro, $error, $p)) {
-            return respErr(5000, $error);
+            return respErr(50000, $error);
         }
         $member_info = Member::where('uid', $p['uid'])->first();
         $member_info->power_role_id = $p['power_role_id'];

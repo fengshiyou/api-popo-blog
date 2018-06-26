@@ -23,7 +23,7 @@ class PowerController extends Controller
             'id' => 'required',
         );
         if ($this->appValidata($pro, $error, $p)) {
-            return respErr(5000, $error);
+            return respErr(50000, $error);
         }
 
         PowerRole::where('id', $p['id'])->update(['power' => $p['power']]);
@@ -36,7 +36,7 @@ class PowerController extends Controller
             'name' => 'required',
         );
         if ($this->appValidata($pro, $error, $p)) {
-            return respErr(5000, $error);
+            return respErr(50000, $error);
         }
         $power_role = new PowerRole();
         $power_role->power = 0;
@@ -53,7 +53,7 @@ class PowerController extends Controller
             'id' => 'required',
         );
         if ($this->appValidata($pro, $error, $p)) {
-            return respErr(5000, $error);
+            return respErr(50000, $error);
         }
         PowerRole::where('id', $p['id'])->delete();
         return respSuc();
@@ -66,7 +66,7 @@ class PowerController extends Controller
             'url' => 'required'
         );
         if ($this->appValidata($pro, $error, $p)) {
-            return respErr(5000, $error);
+            return respErr(50000, $error);
         }
         $power_url = new PowerUrl();
         $mak_power_mark = $power_url->max('power_mark');
@@ -85,7 +85,7 @@ class PowerController extends Controller
             'id' => 'required',
         );
         if ($this->appValidata($pro, $error, $p)) {
-            return respErr(5000, $error);
+            return respErr(50000, $error);
         }
         $power_url = PowerUrl::where('id', $p['id'])->first();
         if(!$power_url){
@@ -101,7 +101,7 @@ class PowerController extends Controller
             'id' => 'required',
         );
         if ($this->appValidata($pro, $error, $p)) {
-            return respErr(5000, $error);
+            return respErr(50000, $error);
         }
 
         PowerRole::where('id', $p['id'])->update(['web_url_power' => $p['power']]);
