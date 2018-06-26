@@ -399,7 +399,7 @@ class UserController extends Controller
      *      "uid": "6",
      *      "acount": "1" //账号
      *      "created_at": "2018-08-08 10:10:10" //创建日期
-     *      "enabled": "0" //1：启用 .：禁用
+     *      "enabled": "0" //1：启用 0：禁用
      *      "updated_at": "2018-08-08 10:10:10" //修改日期
      *      "power_role_id": "www.baidu.com"
      *     }

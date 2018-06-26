@@ -13,11 +13,38 @@ use App\Http\Controllers\Controller;
 
 class BlogController extends Controller
 {
-    //保存博客
+    /**
+     * @api {post} /api/blog/save 01-保存博客
+     * @apiDescription 保存博客-需要权限验证
+     * @apiGroup 02-blog
+     * @apiName save
+     *
+     *
+     * @apiHeader {Int} login_uid 用户ID
+     * @apiParam {String} title 博客title
+     * @apiParam {String} content 内容
+     * @apiParam {String} tags 标签id字符串 例如:1,2,3,4
+     * @apiParam {Int} [blog_id] 博客ID，存在则是修改博客不存在则是新增博客(修改时会验证博客所属)
+     *
+     * @apiVersion 1.0.0
+     * @apiErrorExample {json} 错误返回值:
+     * {
+     * "code": 1003,
+     * "detail": "该目录不属于你",
+     * "data": ""
+     * }
+     * @apiSuccessExample {json} 正确返回值:
+     * {
+     * "code": 200,
+     * "detail": "success",
+     * "data":
+     *     {
+     *      "id": "1",//博客ID
+     *     }
+     */
     public function blogSave()
     {
         //校验规则
-        //@todo tags 是一个array
         $rules = [
             'title' => 'required',
             'content' => 'required',
