@@ -32,7 +32,7 @@ class GithubHookController extends Controller
     }
     public function make_apidoc(){
         $path = ' /data/www/api-popo-blog';
-        $passwd = 'Ace___7';
+        $passwd = 'Ace~~~~7';
         $shell_command = "cd $path && echo '$passwd' | /usr/bin/sudo -S sh apidoc.sh ";
         shell_exec($shell_command);
         var_dump($shell_command);
