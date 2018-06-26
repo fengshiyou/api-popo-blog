@@ -93,24 +93,24 @@ class BlogController extends Controller
      * "detail": "success",
      * "data":
      *      {
-     *          page_no:1,
-     *          list:[
+     *          "page_no":1,
+     *          "list":[
      *                      {
-     *                          acount:"fsy",
-     *                          catalog:"fsy|1|-1",
-     *                          catalog_id:"1",
-     *                          comment_count:"0",
-     *                          content_id:"1",
-     *                          created_at:"2018-06-26 21:35:24",
-     *                          id:1,
-     *                          tags:"1,2,5",
-     *                          title:"test",
-     *                          uid:"1",
-     *                          updated_at:"2018-06-26 21:39:06"
+     *                          "acount":"fsy",
+     *                          "catalog":"fsy|1|-1",
+     *                          "catalog_id":"1",
+     *                          "comment_count":"0",
+     *                          "content_id":"1",
+     *                          "created_at":"2018-06-26 21:35:24",
+     *                          "id":1,
+     *                          "tags":"1,2,5",
+     *                          "title":"test",
+     *                          "uid":"1",
+     *                          "updated_at":"2018-06-26 21:39:06"
      *                      }
      *                ],
-     *          per_page:10,
-     *          total:400,
+     *          "per_page":10,
+     *          "total":400,
      *      }
      */
     public function getList()
