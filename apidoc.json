@@ -1,0 +1,22 @@
+{
+  "name": "个人博客接口文档",
+  "version": "1.0.0",
+  "description": "popo",
+  "title": "popo-blog",
+  "url" : "",
+  "order": [
+
+  ],
+  "header": {
+    "title": "接口说明",
+    "filename": "header.md"
+  },
+  "footer": {
+    "title": "其它补充",
+    "filename": "footer.md"
+  },
+  "template": {
+    "forceLanguage": "en"
+  }
+}
+
