@@ -105,7 +105,7 @@ class BlogController extends Controller
      *                          "id":1,
      *                          "tags":"1,2,5",
      *                          "title":"test",
-     *                          "uid":"1",
+     *                          "uid":"123123",
      *                          "updated_at":"2018-06-26 21:39:06"
      *                      }
      *                ],
