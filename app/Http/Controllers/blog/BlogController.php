@@ -13,49 +13,6 @@ use App\Http\Controllers\Controller;
 
 class BlogController extends Controller
 {
-    /**
-     *
-     * @api {get} /user/{id}
-     * @apiDescription 获取用户信息接口描述
-     * @apiGroup User
-     * @apiName getUserInfo
-     * @apiParam {Number} id 用户ID
-     * @apiVersion 0.1.0
-     *
-     *
-     * @apiExample {curl} 访问示例：
-     * curl -i http://api.demo.com/user/4711
-     *
-     * @apiSuccess {String} firstname Firstname of the User.
-     * @apiSuccess {String} lastname  Lastname of the User.
-     */
-    /**
-     * @api {post} /login 03-用户登录
-     * @apiDescription 手机号有验证11位正确格式，密码6~16位
-     * @apiGroup user
-     * @apiName login
-     *
-     *
-     * @apiParam {String} call 注册的手机号
-     * @apiParam {String} passwd 用户密码
-     *
-     * @apiVersion 1.0.0
-     * @apiErrorExample {json} 错误返回值:
-     * {
-     * "code": 1001,
-     * "detail": "账号或密码错误",
-     * "data": ""
-     * }
-     * @apiSuccessExample {json} 正确返回值:
-     * {
-     * "code": 200,
-     * "detail": "success",
-     * "data": {
-     * "user_id": "6",
-     * "token": "4MRhjarXvynrtkmS"
-     * }
-     * }
-     */
     //保存博客
     public function blogSave()
     {

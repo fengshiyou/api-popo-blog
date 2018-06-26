@@ -11,6 +11,34 @@ use Illuminate\Support\Facades\Redis;
 class UserController extends Controller
 {
     /**
+     * @api {post} /api/user/register 01-用户注册
+     * @apiDescription 用户注册
+     * @apiGroup 01-user
+     * @apiName login
+     *
+     *
+     * @apiParam {String} acount 账号
+     * @apiParam {String} passwd 密码
+     * @apiParam {String} passwd_check 密码确认
+     *
+     * @apiVersion 1.0.0
+     * @apiErrorExample {json} 错误返回值:
+     * {
+     * "code": 1001,
+     * "detail": "账号或密码错误",
+     * "data": ""
+     * }
+     * @apiSuccessExample {json} 正确返回值:
+     * {
+     * "code": 200,
+     * "detail": "success",
+     * "data": {
+     * "user_id": "6",
+     * "token": "4MRhjarXvynrtkmS"
+     * }
+     * }
+     */
+    /**
      * 用户注册
      */
     public function register()
