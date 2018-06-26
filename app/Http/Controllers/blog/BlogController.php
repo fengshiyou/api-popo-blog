@@ -65,7 +65,54 @@ class BlogController extends Controller
     {
         return respSuc(Tag::get());
     }
-
+    /**
+     * @api {post} /api/blog/getList 02-博客列表
+     * @apiDescription 博客列表
+     * @apiGroup 02-blog
+     * @apiName getList
+     *
+     *
+     * @apiHeader {Int} [page_no] 页数 默认1
+     * @apiParam {Int} [per_page] 每页数量 默认10 最大10
+     * @apiParam {Int} [tag_id] 如果有该ID则按tagid对博客进行搜索
+     * @apiParam {Int} [catalog_id] 如果有该ID则按目录ID对博客进行搜索
+     * @apiParam {Int} [uid] 如果有该ID则按用户ID对博客进行搜索
+     * @apiParam {String} [order_by] 排序 默认按创建时间排序
+     *
+     *
+     * @apiVersion 1.0.0
+     * @apiErrorExample {json} 错误返回值:
+     * {
+     * "code": 500,
+     * "detail": "其他错误",
+     * "data": ""
+     * }
+     * @apiSuccessExample {json} 正确返回值:
+     * {
+     * "code": 200,
+     * "detail": "success",
+     * "data":
+     *      {
+     *          page_no:1,
+     *          list:[
+     *                      {
+     *                          acount:"fsy",
+     *                          catalog:"fsy|1|-1",
+     *                          catalog_id:"1",
+     *                          comment_count:"0",
+     *                          content_id:"1",
+     *                          created_at:"2018-06-26 21:35:24",
+     *                          id:1,
+     *                          tags:"1,2,5",
+     *                          title:"test",
+     *                          uid:"1",
+     *                          updated_at:"2018-06-26 21:39:06"
+     *                      }
+     *                ],
+     *          per_page:10,
+     *          total:400,
+     *      }
+     */
     public function getList()
     {
         //页数
