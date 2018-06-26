@@ -10,7 +10,7 @@ namespace App\Services;
 
 use App\model\BlogList;
 use App\model\BlogTag;
-use App\model\content;
+use App\model\Content;
 use Illuminate\Support\Facades\DB;
 use Mockery\Exception;
 
