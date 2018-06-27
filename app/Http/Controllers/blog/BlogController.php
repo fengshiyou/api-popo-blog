@@ -60,7 +60,32 @@ class BlogController extends Controller
         }
         return $result;
     }
-
+    /**
+     * @api {get} /api/blog/getTags 05-获取博客标签
+     * @apiDescription 修改博客时获取博客详情-需要登陆验证
+     * @apiGroup 02-blog
+     * @apiName getTags
+     *
+     *
+     * @apiVersion 1.0.0
+     * @apiErrorExample {json} 错误返回值:
+     * {
+     * "code": 500,
+     * "detail": "其他错误",
+     * "data": ""
+     * }
+     * @apiSuccessExample {json} 正确返回值:
+     * {
+     * "code": 200,
+     * "detail": "success",
+     * "data":[
+     *      {
+     *           "color":"#FF6600",//标签颜色
+     *           "id":"6",//标签ID
+     *           "name":"0",//标签名称
+     *      }
+     * ]
+     */
     public function getTags()
     {
         return respSuc(Tag::get());
