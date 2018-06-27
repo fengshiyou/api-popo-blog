@@ -84,6 +84,7 @@ class BlogController extends Controller
      *           "id":"6",//标签ID
      *           "name":"0",//标签名称
      *      }
+     * ......
      * ]
      */
     public function getTags()
