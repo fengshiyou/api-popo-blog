@@ -15,7 +15,7 @@ class BlogController extends Controller
 {
     /**
      * @api {post} /api/blog/save 01-保存博客
-     * @apiDescription 保存博客-需要权限验证
+     * @apiDescription 保存博客-需要登陆验证
      * @apiGroup 02-blog
      * @apiName save
      *
@@ -66,7 +66,7 @@ class BlogController extends Controller
         return respSuc(Tag::get());
     }
     /**
-     * @api {post} /api/blog/getList 02-博客列表
+     * @api {get} /api/blog/getList 02-博客列表
      * @apiDescription 博客列表
      * @apiGroup 02-blog
      * @apiName getList
@@ -162,6 +162,40 @@ class BlogController extends Controller
         $return_data['page_no'] = intval($page_no);
         return respSuc($return_data);
     }
+    /**
+     * @api {post} /api/blog/getContent 03-博客的文章详情
+     * @apiDescription 博客的文章详情
+     * @apiGroup 02-blog
+     * @apiName getContent
+     *
+     *
+     * @apiParam {Int} [content_id] 文章ID
+     *
+     * @apiVersion 1.0.0
+     * @apiErrorExample {json} 错误返回值:
+     * {
+     * "code": 500,
+     * "detail": "其他错误",
+     * "data": ""
+     * }
+     * @apiSuccessExample {json} 正确返回值:
+     * {
+     * "code": 200,
+     * "detail": "success",
+     * "data":
+     *      {
+     *           "catalog_id":"6",//当前所在目录ID
+     *           "comment_count":"0",//评论数量
+     *           "content_id":"1",//文章ID
+     *           "content":"testxxxxxxxxxxxx",//文章内容
+     *           "created_at":"2018-06-26 21:35:24",//创建时间
+     *           "id":1,//博客ID
+     *           "tags":"1,2,5",//标签id字符串 例如:1,2,3,4
+     *           "title":"test",//博客名称
+     *           "uid":"123123",//所属用户ID
+     *           "updated_at":"2018-06-26 21:39:06"//更新时间
+     *      }
+     */
     public function getContent(){
         $rules = [
             'content_id' => 'required'
@@ -172,6 +206,41 @@ class BlogController extends Controller
         $content = Content::leftJoin('blog_list','content.id','=','blog_list.content_id')->where('blog_list.id',$param['content_id'])->first();
         return respSuc($content);
     }
+    /**
+     * @api {post} /api/blog/getEditContent 04-修改博客时获取博客详情
+     * @apiDescription 修改博客时获取博客详情-需要登陆验证
+     * @apiGroup 02-blog
+     * @apiName getEditContent
+     *
+     *
+     * @apiParam {Int} [blog_id] 博客ID
+     *
+     * @apiVersion 1.0.0
+     * @apiErrorExample {json} 错误返回值:
+     * {
+     * "code": 500,
+     * "detail": "其他错误",
+     * "data": ""
+     * }
+     * @apiSuccessExample {json} 正确返回值:
+     * {
+     * "code": 200,
+     * "detail": "success",
+     * "data":
+     *      {
+     *           "catalog":"fsy|1|-1,test|6|1",//目录|目录ID|目录父ID
+     *           "catalog_id":"6",//当前所在目录ID
+     *           "comment_count":"0",//评论数量
+     *           "content_id":"1",//文章ID
+     *           "content":"testaaaaaaa",//文章内容
+     *           "created_at":"2018-06-26 21:35:24",//创建时间
+     *           "id":1,//博客ID
+     *           "tags":"1,2,5",//标签id字符串 例如:1,2,3,4
+     *           "title":"test",//博客名称
+     *           "uid":"123123",//所属用户ID
+     *           "updated_at":"2018-06-26 21:39:06"//更新时间
+     *      }
+     */
     public function getEditContent(){
         $rules = [
             'blog_id' => 'required'
