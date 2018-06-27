@@ -93,21 +93,22 @@ class BlogController extends Controller
      * "detail": "success",
      * "data":
      *      {
-     *          "page_no":1,
+     *          "page_no":1,//当前页数
      *          "list":[
      *                      {
-     *                          "acount":"fsy",
-     *                          "catalog":"fsy|1|-1",
-     *                          "catalog_id":"1",
-     *                          "comment_count":"0",
-     *                          "content_id":"1",
-     *                          "created_at":"2018-06-26 21:35:24",
-     *                          "id":1,
-     *                          "tags":"1,2,5",
-     *                          "title":"test",
-     *                          "uid":"123123",
-     *                          "updated_at":"2018-06-26 21:39:06"
+     *                          "acount":"fsy",//博客所属账号
+     *                          "catalog":"fsy|1|-1,test|6|1",//目录|目录ID|目录父ID
+     *                          "catalog_id":"6",//当前所在目录ID
+     *                          "comment_count":"0",//评论数量
+     *                          "content_id":"1",//文章ID
+     *                          "created_at":"2018-06-26 21:35:24",//创建时间
+     *                          "id":1,//博客ID
+     *                          "tags":"1,2,5",//标签id字符串 例如:1,2,3,4
+     *                          "title":"test",//博客名称
+     *                          "uid":"123123",//所属用户ID
+     *                          "updated_at":"2018-06-26 21:39:06"//更新时间
      *                      }
+     *                  ......
      *                ],
      *          "per_page":10,
      *          "total":400,
