@@ -13,7 +13,4 @@ class WebUrlController extends Controller
         $data = WebUrl::get();
         return respSuc($data);
     }
-    public function setPower(){
-
-    }
 }

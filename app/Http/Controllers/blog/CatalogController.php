@@ -11,8 +11,41 @@ use Illuminate\Support\Facades\DB;
 class CatalogController extends Controller
 {
     /**
-     * 获取目录列表   包含文章数
-     * @return \Illuminate\Http\JsonResponse
+     * @api {get} /api/blog/getMyCatalogList 01-目录列表 带文章数
+     * @apiDescription 目录列表 带文章数
+     * @apiGroup 03-catalog
+     * @apiName getCatalogList
+     *
+     *
+     * @apiHeader {Int} [uid] 用户ID，默认登陆者ID
+     *
+     *
+     * @apiVersion 1.0.0
+     * @apiErrorExample {json} 错误返回值:
+     * {
+     * "code": 500,
+     * "detail": "其他错误",
+     * "data": ""
+     * }
+     * @apiSuccessExample {json} 正确返回值:
+     * {
+     * "code": 200,
+     * "detail": "success",
+     * "data":
+     *      {
+     *          "catalog_name":"fsy",//目录名称
+     *          "count":12,//该目录下包含文章数
+     *          "created_at":"2018-06-26 11:29:43",//创建时间
+     *          "updated_at":"2018-06-26 11:29:43",//更新时间
+     *          "id":1,//目录ID
+     *          "lef":"1",//左值
+     *          "parent_id":"-1",//父目录ID -1代表没有父目录(根目录)
+     *          "rig":"4",//右值
+     *          "uid":"1",//所属用户ID
+     *          "next":[//下级目录信息
+     *                  ......
+     *                ]
+     *      }
      */
     public function getCatalogListHaveCount()
     {

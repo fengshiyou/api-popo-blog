@@ -195,7 +195,7 @@ class BlogController extends Controller
      * @apiName getContent
      *
      *
-     * @apiParam {Int} [content_id] 文章ID
+     * @apiParam {Int} content_id 文章ID
      *
      * @apiVersion 1.0.0
      * @apiErrorExample {json} 错误返回值:
@@ -239,7 +239,7 @@ class BlogController extends Controller
      * @apiName getEditContent
      *
      *
-     * @apiParam {Int} [blog_id] 博客ID
+     * @apiParam {Int} blog_id 博客ID
      *
      * @apiVersion 1.0.0
      * @apiErrorExample {json} 错误返回值:
