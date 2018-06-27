@@ -98,7 +98,7 @@ class BlogController extends Controller
      * @apiName getList
      *
      *
-     * @apiHeader {Int} [page_no] 页数 默认1
+     * @apiParam {Int} [page_no] 页数 默认1
      * @apiParam {Int} [per_page] 每页数量 默认10 最大10
      * @apiParam {Int} [tag_id] 如果有该ID则按tagid对博客进行搜索
      * @apiParam {Int} [catalog_id] 如果有该ID则按目录ID对博客进行搜索

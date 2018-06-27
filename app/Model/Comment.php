@@ -21,7 +21,7 @@ class Comment extends Model
     CREATE TABLE `". self::getTable() . "` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `uid` int(11) NOT NULL DEFAULT '0' COMMENT '留言者ID',
-  `type` varchar(10) DEFAULT '0' COMMENT '1:对个人留言 2:对博客留言 3:对留言内容留言',
+  `type` varchar(10) DEFAULT '0' COMMENT 'blog:对博客留言 user:对用户留言',
   `type_id` int(11) NOT NULL DEFAULT '0' COMMENT 'uid或者博客id或者留言id',
   `content` text COMMENT '内容',
   `reply_count` int(11) NOT NULL,

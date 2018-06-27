@@ -10,8 +10,35 @@ use App\Http\Controllers\Controller;
 class CommentController extends Controller
 {
     /**
-     * 留言
-     * @comment_type blog:对博客留言 user:对用户留言
+     * @api {post} /api/comment/add 01-添加评论
+     * @apiDescription 添加评论-需要登陆验证
+     * @apiGroup 04-comment
+     * @apiName getMyCatalogList
+     *
+     *
+     * @apiHeader {Int} login_uid 用户ID
+     *
+     * @apiParam {String} comment_type blog:对博客留言 user:对用户留言
+     * @apiParam {Int} id blog_id
+     * @apiParam {String} content 评论内容
+     *
+     *
+     * @apiVersion 1.0.0
+     * @apiErrorExample {json} 错误返回值:
+     * {
+     * "code": 50000,
+     * "detail": "必填字段缺少",
+     * "data": ""
+     * }
+     * @apiSuccessExample {json} 正确返回值:
+     * {
+     * "code": 200,
+     * "detail": "success",
+     * "data":
+     *      {
+     *          "id":"1",//评论ID
+     *          "floor":"1",//该评论所在楼层
+     *      }
      */
     public function add()
     {
@@ -48,7 +75,48 @@ class CommentController extends Controller
     }
 
     /**
-     * 获取评论列表
+     * @api {get} /api/comment/getList 02-获取评论列表
+     * @apiDescription 获取评论列表
+     * @apiGroup 04-comment
+     * @apiName getList
+     *
+     *
+     * @apiParam {Int} [page_no] 页数 默认1
+     * @apiParam {String} comment_type blog:对博客留言 user:对用户留言
+     * @apiParam {Int} id blog_id
+     *
+     *
+     * @apiVersion 1.0.0
+     * @apiErrorExample {json} 错误返回值:
+     * {
+     * "code": 500,
+     * "detail": "其他错误",
+     * "data": ""
+     * }
+     * @apiSuccessExample {json} 正确返回值:
+     * {
+     * "code": 200,
+     * "detail": "success",
+     * "data":
+     *      {
+     *          "page_no":1,//当前页数
+     *          "list":[
+     *                      {
+     *                          "acount":"fsy",//评论人账号
+     *                          "id":"1",//评论ID
+     *                          "uid":"1",//评论人uid
+     *                          "type":"0",//blog:对博客留言 user:对用户留言
+     *                          "type_id":"1",//uid或者博客id
+     *                          "created_at":"2018-06-26 21:35:24",//创建时间
+     *                          "content":"123123123123阿迪斯发地方",//评论内容
+     *                          "reply_count":"回复数量",//评论内容
+     *                          "updated_at":"2018-06-26 21:39:06"//更新时间
+     *                      }
+     *                  ......
+     *                ],
+     *          "per_page":10,
+     *          "total":400,
+     *      }
      */
     public function getList()
     {

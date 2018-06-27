@@ -17,7 +17,7 @@ class CatalogController extends Controller
      * @apiName getMyCatalogList
      *
      *
-     * @apiHeader {Int} [uid] 用户ID，默认登陆者ID
+     * @apiParam {Int} [uid] 用户ID，默认登陆者ID
      *
      *
      * @apiVersion 1.0.0
@@ -68,7 +68,7 @@ class CatalogController extends Controller
      * @apiName getCatalogList
      *
      *
-     * @apiHeader {Int} [uid] 用户ID，默认登陆者ID
+     * @apiParam {Int} [uid] 用户ID，默认登陆者ID
      *
      *
      * @apiVersion 1.0.0
