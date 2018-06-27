@@ -11,10 +11,10 @@ use Illuminate\Support\Facades\DB;
 class CatalogController extends Controller
 {
     /**
-     * @api {get} /api/blog/getMyCatalogList 01-目录列表 带文章数
+     * @api {post} /api/blog/getMyCatalogList 01-目录列表 带文章数
      * @apiDescription 目录列表 带文章数
      * @apiGroup 03-catalog
-     * @apiName getCatalogList
+     * @apiName getMyCatalogList
      *
      *
      * @apiHeader {Int} [uid] 用户ID，默认登陆者ID
@@ -61,7 +61,42 @@ class CatalogController extends Controller
         $catalog_list = $this->formatCatalogList($catalog_list);
         return respSuc($catalog_list);
     }
-
+    /**
+     * @api {post} /api/blog/getCatalogList 02-目录列表
+     * @apiDescription 目录列表
+     * @apiGroup 03-catalog
+     * @apiName getCatalogList
+     *
+     *
+     * @apiHeader {Int} [uid] 用户ID，默认登陆者ID
+     *
+     *
+     * @apiVersion 1.0.0
+     * @apiErrorExample {json} 错误返回值:
+     * {
+     * "code": 500,
+     * "detail": "其他错误",
+     * "data": ""
+     * }
+     * @apiSuccessExample {json} 正确返回值:
+     * {
+     * "code": 200,
+     * "detail": "success",
+     * "data":
+     *      {
+     *          "catalog_name":"fsy",//目录名称
+     *          "created_at":"2018-06-26 11:29:43",//创建时间
+     *          "updated_at":"2018-06-26 11:29:43",//更新时间
+     *          "id":1,//目录ID
+     *          "lef":"1",//左值
+     *          "parent_id":"-1",//父目录ID -1代表没有父目录(根目录)
+     *          "rig":"4",//右值
+     *          "uid":"1",//所属用户ID
+     *          "next":[//下级目录信息
+     *                  ......
+     *                ]
+     *      }
+     */
     public function getCatalogList()
     {
         //uid 查询的用户名    login_uid 登陆账户的uid
@@ -99,7 +134,27 @@ class CatalogController extends Controller
     }
 
     /**
-     * 重命名目录名称
+     * @api {post} /api/blog/renameCatalog 03-目录重命名
+     * @apiDescription 目录重命名-需要登陆验证
+     * @apiGroup 03-catalog
+     * @apiName renameCatalog
+     *
+     *
+     * @apiParam {Int} catalog_id 目录ID
+     * @apiParam {String} new_name 新名称
+     *
+     * @apiVersion 1.0.0
+     * @apiErrorExample {json} 错误返回值:
+     * {
+     * "code": 1003,
+     * "detail": "该目录不属于你",
+     * "data": ""
+     * }
+     * @apiSuccessExample {json} 正确返回值:
+     * {
+     * "code": 200,
+     * "detail": "success",
+     * "data":{}
      */
     public function rename()
     {
@@ -128,7 +183,27 @@ class CatalogController extends Controller
     }
 
     /**
-     * 新增子目录
+     * @api {post} /api/blog/newCatalog 04-新增子目录
+     * @apiDescription 新增子目录-需要登陆验证
+     * @apiGroup 03-catalog
+     * @apiName newCatalog
+     *
+     *
+     * @apiParam {Int} catalog_id 父目录ID
+     * @apiParam {String} new_name 新目录名称
+     *
+     * @apiVersion 1.0.0
+     * @apiErrorExample {json} 错误返回值:
+     * {
+     * "code": 1003,
+     * "detail": "该目录不属于你",
+     * "data": ""
+     * }
+     * @apiSuccessExample {json} 正确返回值:
+     * {
+     * "code": 200,
+     * "detail": "success",
+     * "data":{}
      */
     public function newCatalog()
     {
@@ -152,7 +227,26 @@ class CatalogController extends Controller
         return $catalog_service->addCatalog($catalog_info,$param['catalog_name']);
     }
     /**
-     * 删除目录
+     * @api {post} /api/blog/delMyCatalog 05-删除目录
+     * @apiDescription 新增子目录-需要登陆验证（删除后目录下面所有的文章会转移到父目录中）
+     * @apiGroup 03-catalog
+     * @apiName delMyCatalog
+     *
+     *
+     * @apiParam {Int} catalog_id 目录ID
+     *
+     * @apiVersion 1.0.0
+     * @apiErrorExample {json} 错误返回值:
+     * {
+     * "code": 1003,
+     * "detail": "该目录不属于你",
+     * "data": ""
+     * }
+     * @apiSuccessExample {json} 正确返回值:
+     * {
+     * "code": 200,
+     * "detail": "success",
+     * "data":{}
      */
     public function delCatalog(){
         //转移文章
