@@ -70,7 +70,10 @@ class CatalogServices
         $catalog_model->catalog_name = $name;
         $catalog_model->uid = $catalog->uid;
         DB::beginTransaction();
-        $update_lef = $catalog_model->where('lef', '>=', $catalog->rig)->increment('lef', 2);
+        $update_lef = true;
+        if($catalog_model->where('lef', '>=', $catalog->rig)->count()){
+            $update_lef = $catalog_model->where('lef', '>=', $catalog->rig)->increment('lef', 2);
+        }
         $update_rig = $catalog_model->where('rig', '>=', $catalog->rig)->increment('rig', 2);
         $new_catalog = $catalog_model->save();
 
