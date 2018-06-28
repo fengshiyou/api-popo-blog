@@ -40,9 +40,9 @@ class Kernel extends HttpKernel
             \App\Http\Middleware\VerifyCsrfToken::class,
             \Illuminate\Routing\Middleware\SubstituteBindings::class,
         ],
-
+        //@todo 访问次数限制http://laravelacademy.org/post/3566.html
         'api' => [
-            'throttle:60,1',
+            'throttle:600,1',
             'bindings',
         ],
     ];
