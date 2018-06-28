@@ -165,6 +165,11 @@ class BlogController extends Controller
         if($uid){
             $blog_model = $blog_model->where('blog_list.uid', $uid);
         }
+        //如果不是是查看自己的博客列表 则不查询被隐藏的博客
+        $login_uid = request()->header('loginUid');
+        if($uid != $login_uid ||!$uid){
+            $blog_model = $blog_model->where('display',1);
+        }
         //排序  因为getCatalog中也有排序  所以这个排序要放在前面
         if ($order_by) {
             $blog_model = $blog_model->orderBy('blog_list.' . $order_by, "desc");

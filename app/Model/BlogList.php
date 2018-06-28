@@ -45,6 +45,7 @@ class BlogList extends Model
   `catalog_id` int(11) DEFAULT '0' COMMENT '目录ID',
   `tags` varchar(255) DEFAULT '0' COMMENT '标签id  |12|23434|234|2323',
   `comment_count` int(11) NOT NULL DEFAULT '0' COMMENT '评论数',
+  `display` tinyint(4) NOT NULL DEFAULT '0' COMMENT '1显示 0隐藏',
   `updated_at` datetime NOT NULL,
   `created_at` datetime NOT NULL,
   PRIMARY KEY (`id`)
