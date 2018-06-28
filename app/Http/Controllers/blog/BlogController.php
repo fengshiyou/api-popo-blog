@@ -53,13 +53,14 @@ class BlogController extends Controller
             return respErr(50000, $error);
         }
         $blog_service = new BlogServices();
-        if (!array_key_exists('blog_id',$param)) {
+        if (!array_key_exists('blog_id', $param)) {
             $result = $blog_service->blogAdd($param);
         } else {
             $result = $blog_service->blogEdit($param);
         }
         return $result;
     }
+
     /**
      * @api {get} /api/blog/getTags 05-获取博客标签
      * @apiDescription 修改博客时获取博客详情-需要登陆验证
@@ -91,6 +92,7 @@ class BlogController extends Controller
     {
         return respSuc(Tag::get());
     }
+
     /**
      * @api {get} /api/blog/getList 02-博客列表
      * @apiDescription 博客列表
@@ -162,25 +164,25 @@ class BlogController extends Controller
             $blog_model = $blog_model->where('catalog_id', $catalog_id);
         }
         //查询用户
-        if($uid){
+        if ($uid) {
             $blog_model = $blog_model->where('blog_list.uid', $uid);
         }
         //如果不是是查看自己的博客列表 则不查询被隐藏的博客
         $login_uid = request()->header('loginUid');
-        if($uid != $login_uid ||!$uid){
-            $blog_model = $blog_model->where('display',1);
+        if ($uid != $login_uid || !$uid) {
+            $blog_model = $blog_model->where('display', 1);
         }
         //排序  因为getCatalog中也有排序  所以这个排序要放在前面
         if ($order_by) {
             $blog_model = $blog_model->orderBy('blog_list.' . $order_by, "desc");
         }
-        $total =  $blog_model->count();
+        $total = $blog_model->count();
         //获取所属目录
         $blog_model = $blog_model->select('blog_list.*')->getCatalog();
         //获取博客内容
 //        $blog_model = $blog_model->addSelect('content.content')->leftJoin('content','blog_list.content_id','=','content.id');
         //获取用户名
-        $blog_model = $blog_model->addSelect('member.acount')->leftJoin('member','blog_list.uid','=','member.uid');
+        $blog_model = $blog_model->addSelect('member.acount')->leftJoin('member', 'blog_list.uid', '=', 'member.uid');
         //分页
         $blog_model = $blog_model->skip(($page_no - 1) * $per_page)
             ->take($per_page);
@@ -193,6 +195,7 @@ class BlogController extends Controller
         $return_data['page_no'] = intval($page_no);
         return respSuc($return_data);
     }
+
     /**
      * @api {post} /api/blog/getContent 03-博客的文章详情
      * @apiDescription 博客的文章详情
@@ -227,16 +230,18 @@ class BlogController extends Controller
      *           "updated_at":"2018-06-26 21:39:06"//更新时间
      *      }
      */
-    public function getContent(){
+    public function getContent()
+    {
         $rules = [
             'content_id' => 'required'
         ];
         if ($this->appValidata($rules, $error, $param)) {
             return respErr(50000, $error);
         }
-        $content = Content::leftJoin('blog_list','content.id','=','blog_list.content_id')->where('blog_list.id',$param['content_id'])->first();
+        $content = Content::leftJoin('blog_list', 'content.id', '=', 'blog_list.content_id')->where('blog_list.id', $param['content_id'])->first();
         return respSuc($content);
     }
+
     /**
      * @api {post} /api/blog/getEditContent 04-修改博客时获取博客详情
      * @apiDescription 修改博客时获取博客详情-需要登陆验证
@@ -272,28 +277,49 @@ class BlogController extends Controller
      *           "updated_at":"2018-06-26 21:39:06"//更新时间
      *      }
      */
-    public function getEditContent(){
+    public function getEditContent()
+    {
         $rules = [
             'blog_id' => 'required'
         ];
         if ($this->appValidata($rules, $error, $param)) {
             return respErr(50000, $error);
         }
-        $content = BlogList::leftJoin('content','content.id','=','blog_list.content_id')
+        $content = BlogList::leftJoin('content', 'content.id', '=', 'blog_list.content_id')
             ->getCatalog()
-            ->addSelect('blog_list.*','content.content')
-            ->where('blog_list.id',$param['blog_id'])
+            ->addSelect('blog_list.*', 'content.content')
+            ->where('blog_list.id', $param['blog_id'])
             ->first();
-        if(!$content){
+        if (!$content) {
             return respErr(1002);
         }
         //验证修改者是否是创建者
-        if($content->uid != $param['login_uid']){
+        if ($content->uid != $param['login_uid']) {
             return respErr(1001);
         }
         return respSuc($content);
     }
-    public function requestTest(){
-        return respErr(201,'nead_login');
+
+    /**
+     * 设置博客的显示隐藏
+     */
+    public function setDisplay()
+    {
+        $rules = [
+            'blog_id' => 'required',
+            'display' => 'required'
+        ];
+        if ($this->appValidata($rules, $error, $param)) {
+            return respErr(50000, $error);
+        }
+        $blog = new BlogList();
+        $blog = $blog->where('id', $param['blog_id'])->first();
+        //验证修改者是否是创建者
+        if ($blog->uid != $param['login_uid']) {
+            return respErr(1001);
+        }
+        $blog->display = $param['display'] ? 1 : 0;
+        $blog->save();
+        return respSuc();
     }
 }

@@ -58,6 +58,8 @@ Route::group(['middleware' => 'log'], function () {
             Route::post('/getMyCatalogList', 'CatalogController@getCatalogListHaveCount');
             //删除目录
             Route::post('/delMyCatalog', 'CatalogController@delCatalog');
+            //设置目录显示隐藏
+            Route::post('/setDisplay', 'BlogController@setDisplay');
         });
         Route::group(['namespace' => 'user', 'prefix' => 'user'], function () {
             //修改个人信息

@@ -36,6 +36,7 @@ class BlogServices
             'uid' => $info['login_uid'],
             'content_id' => $content_id,
             'catalog_id' => $info['catalog_id'],
+            'display' => $info['display'] ? 1 : 0,
             'tags' => $tags,
             'updated_at' => date("Y-m-d H:i:s"),
             'created_at' => date("Y-m-d H:i:s"),
@@ -77,6 +78,7 @@ class BlogServices
         $blog_info->catalog_id = $info['catalog_id'];
         $blog_info->tags = $tags;
         $blog_info->updated_at = date("Y-m-d H:i:m");
+        $blog_info->display = $info['display'] ? 1 : 0;
         //验证博客作者
         if ($blog_info->uid != $info['login_uid']) {
             return respErr(1001);
