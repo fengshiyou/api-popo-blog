@@ -43,10 +43,14 @@ class CatalogServices
 
         DB::beginTransaction();
         $move = $this->moveCatalogBlog($catalog->id, $catalog->parent_id);
-        $del = Catalog::where('lef', '>=', $catalog->lef)->where('rig', '<=', $catalog->rig)->delete();
-        $update_rig = Catalog::where('rig', '>', $catalog->rig)->increment('rig', -$length);
-        $update_lef = Catalog::where('lef', '>', $catalog->rig)->increment('lef', -$length);
+        $catalog_model = new Catalog();
 
+        $del = $catalog_model->where('lef', '>=', $catalog->lef)->where('rig', '<=', $catalog->rig)->delete();
+        $update_rig = $catalog_model->where('rig', '>', $catalog->rig)->increment('rig', -$length);
+        $update_lef = true;
+        if($catalog_model->where('lef', '>=', $catalog->rig)->count()){
+            $update_lef = $catalog_model->where('lef', '>', $catalog->rig)->increment('lef', -$length);
+        }
         if ($del && $update_rig && $update_lef && $move) {
             DB::commit();
             return respSuc();
