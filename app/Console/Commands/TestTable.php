@@ -40,38 +40,38 @@ class TestTable extends Command
     {
         $data1 = [
             [
-                'id'=>1
+                'id'=>1,
                 'name' => '1',
                 'pid' => 0,
                 'path'=> 0
             ],
             [
-                'id' => 2
+                'id' => 2,
                 'name' => '1,1',
                 'pid' => 1,
                 'path'=> '0,1'
             ],
             [
-                'id' => 3
+                'id' => 3,
                 'name' => '1,1,1',
                 'pid' => 2,
                 'path'=> '0,1,2'
             ],
             [
-                'id' => 4
+                'id' => 4,
                 'name' => '1,1,2',
                 'pid' => 2,
                 'path'=> '0,1,2'
             ],
         ];
-        // for ($i=0; $i < 1000; $i++) { 
-        //     $data[] = [
-        //         'id' => $i + 4
-        //         'name' => '1-1-' + $i + 2,
-        //         'pid' => 2,
-        //         'path'=> '0-1-2'
-        //     ]
-        // }
+        for ($i=0; $i < 1000; $i++) { 
+            $data[] = [
+                'id' => $i + 4,
+                'name' => '1-1-' + $i + 2,
+                'pid' => 2,
+                'path'=> '0-1-2'
+            ]
+        }
         $test1 = new Test1();
         $test1->insert($data1);
     }
