@@ -64,14 +64,14 @@ class TestTable extends Command
                 'path'=> '0-1-2'
             ],
         ];
-        for ($i=0; $i < 1000; $i++) { 
-            $data[] = [
-                'id' => $i + 4
-                'name' => '1-1-' + $i + 2,
-                'pid' => 2,
-                'path'=> '0-1-2'
-            ]
-        }
+        // for ($i=0; $i < 1000; $i++) { 
+        //     $data[] = [
+        //         'id' => $i + 4
+        //         'name' => '1-1-' + $i + 2,
+        //         'pid' => 2,
+        //         'path'=> '0-1-2'
+        //     ]
+        // }
         $test1 = new Test1();
         $test1->insert($data1);
     }
