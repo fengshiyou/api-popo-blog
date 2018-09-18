@@ -5,6 +5,7 @@ namespace App\Console\Commands;
 use Illuminate\Console\Command;
 use App\model\Test1;
 use App\model\Test2;
+use App\model\BlogList;
 class TestTable extends Command
 {
     /**
@@ -64,7 +65,8 @@ class TestTable extends Command
                 'test' => 'webpack',
             ],
         ];
-        $test1 = new Test1();
-        $test1->insert($data);
+        $blogList = new BlogList();
+        // $test1 = new Test1();
+        // $test1->insert($data);
     }
 }
