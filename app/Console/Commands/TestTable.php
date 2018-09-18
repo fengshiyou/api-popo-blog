@@ -5,7 +5,7 @@ namespace App\Console\Commands;
 use Illuminate\Console\Command;
 use App\model\Test1;
 use App\model\Test2;
-class TableManage extends Command
+class TestTable extends Command
 {
     /**
      * The name and signature of the console command.
