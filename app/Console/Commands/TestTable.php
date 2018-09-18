@@ -78,12 +78,12 @@ class TestTable extends Command
                 'path'=> '0-1-' . ($i + 3)
             ];
         }
-        for ($i=0; $i < 100000; $i++) { 
+        for ($i=0; $i < 10000; $i++) { 
             $data1[] = [
                 'id' => $i + 1006,
                 'name' => '1-2-' . ($i + 1),
                 'pid' => 5,
-                'path'=> '0-1-2'
+                'path'=> '0-2-' . ($i + 3)
             ];
         }
         $test1 = new Test1();
