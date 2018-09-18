@@ -4,8 +4,7 @@ namespace App\Console\Commands;
 
 use Illuminate\Console\Command;
 use App\Model\Test1;
-use App\model\Test2;
-use App\model\BlogList;
+use App\Model\Test2;
 class TestTable extends Command
 {
     /**
@@ -66,6 +65,6 @@ class TestTable extends Command
             ],
         ];
         $test1 = new Test1();
-        $test1->insert($data);
+        $test1->insert($data1);
     }
 }
