@@ -3,7 +3,7 @@
 namespace App\Console\Commands;
 
 use Illuminate\Console\Command;
-use App\model\Test1;
+use App\Model\Test1;
 use App\model\Test2;
 use App\model\BlogList;
 class TestTable extends Command
