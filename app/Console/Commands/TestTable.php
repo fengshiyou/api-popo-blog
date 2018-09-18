@@ -40,30 +40,38 @@ class TestTable extends Command
     {
         $data1 = [
             [
-                'test' => 'python',
+                'id'=>1
+                'name' => '1',
+                'pid' => 0,
+                'path'=> 0
             ],
             [
-                'test' => 'PHP',
+                'id' => 2
+                'name' => '1-1',
+                'pid' => 1,
+                'path'=> '0-1'
             ],
             [
-                'test' => 'react',
+                'id' => 3
+                'name' => '1-1-1',
+                'pid' => 2,
+                'path'=> '0-1-2'
             ],
             [
-                'test' => 'web前端',
-            ],
-            [
-                'test' => 'mysql',
-            ],
-            [
-                'test' => 'linux',
-            ],
-            [
-                'test' => 'Laravel',
-            ],
-            [
-                'test' => 'webpack',
+                'id' => 4
+                'name' => '1-1-2',
+                'pid' => 2,
+                'path'=> '0-1-2'
             ],
         ];
+        for ($i=0; $i < 1000; $i++) { 
+            $data[] = [
+                'id' => $i + 4
+                'name' => '1-1-' + $i + 2,
+                'pid' => 2,
+                'path'=> '0-1-2'
+            ]
+        }
         $test1 = new Test1();
         $test1->insert($data1);
     }
