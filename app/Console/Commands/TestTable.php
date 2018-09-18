@@ -65,8 +65,7 @@ class TestTable extends Command
                 'test' => 'webpack',
             ],
         ];
-        $blogList = new BlogList();
-        // $test1 = new Test1();
-        // $test1->insert($data);
+        $test1 = new Test1();
+        $test1->insert($data);
     }
 }
