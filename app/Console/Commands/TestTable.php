@@ -66,8 +66,8 @@ class TestTable extends Command
         ];
         for ($i=0; $i < 1000; $i++) { 
             $data1[] = [
-                'id' => $i + 5,
-                'name' => '1-1-' + $i + 3,
+                'id' => $i . 5,
+                'name' => '1-1-' . $i . 3,
                 'pid' => 2,
                 'path'=> '0-1-2'
             ];
