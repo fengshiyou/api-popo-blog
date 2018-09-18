@@ -83,7 +83,7 @@ class TestTable extends Command
                 'id' => $i + 1006,
                 'name' => '1-2-' . ($i + 1),
                 'pid' => 5,
-                'path'=> '0-2-' . ($i + 3)
+                'path'=> '0-2-' . ($i + 1)
             ];
         }
         $test1 = new Test1();
