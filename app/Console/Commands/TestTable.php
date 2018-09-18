@@ -47,21 +47,21 @@ class TestTable extends Command
             ],
             [
                 'id' => 2
-                'name' => '1-1',
+                'name' => '1,1',
                 'pid' => 1,
-                'path'=> '0-1'
+                'path'=> '0,1'
             ],
             [
                 'id' => 3
-                'name' => '1-1-1',
+                'name' => '1,1,1',
                 'pid' => 2,
-                'path'=> '0-1-2'
+                'path'=> '0,1,2'
             ],
             [
                 'id' => 4
-                'name' => '1-1-2',
+                'name' => '1,1,2',
                 'pid' => 2,
-                'path'=> '0-1-2'
+                'path'=> '0,1,2'
             ],
         ];
         // for ($i=0; $i < 1000; $i++) { 
