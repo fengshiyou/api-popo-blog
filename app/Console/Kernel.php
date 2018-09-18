@@ -14,7 +14,9 @@ class Kernel extends ConsoleKernel
      */
     protected $commands = [
         //表结构管理
-        \App\Console\Commands\TableManage::class
+        \App\Console\Commands\TableManage::class,
+        // 测试数据
+        \App\Console\Commands\TestTable::class
     ];
 
     /**
